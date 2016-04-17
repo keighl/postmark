@@ -51,6 +51,8 @@ func (client *Client) doRequest(method string, path string, payload interface{},
 		req.Body = ioutil.NopCloser(bytes.NewBuffer(payloadData))
 	}
 
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("X-Postmark-Server-Token", client.ServerToken)
 	req.Header.Add("X-Postmark-Account-Token", client.AccountToken)
 
