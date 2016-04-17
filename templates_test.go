@@ -48,7 +48,7 @@ func TestTemplates(t *testing.T) {
 		}`))
 	})
 
-	res, err := client.Templates()
+	res, err := client.Templates(100, 10)
 	if err != nil {
 		t.Fatalf("Templates: %s", err.Error())
 	}

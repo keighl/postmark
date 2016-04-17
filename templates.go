@@ -2,8 +2,10 @@ package postmark
 
 import (
 	"fmt"
+	"net/url"
 )
 
+// Template represents an email template on the server
 type Template struct {
 	// TemplateId: ID of template
 	TemplateId int64
@@ -21,6 +23,7 @@ type Template struct {
 	Active bool
 }
 
+// TemplateInfo is a limited set of template info returned via Index/Editing endpoints
 type TemplateInfo struct {
 	// TemplateId: ID of template
 	TemplateId int64
@@ -33,6 +36,7 @@ type TemplateInfo struct {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// Template fetches a specific template via TemplateID
 func (client *Client) Template(templateID string) (Template, error) {
 	res := Template{}
 	path := fmt.Sprintf("templates/%s", templateID)
@@ -52,10 +56,21 @@ type templatesResponse struct {
 	Templates  []TemplateInfo
 }
 
-func (client *Client) Templates() ([]TemplateInfo, error) {
+// Templates fetches a list of templates on the server
+func (client *Client) Templates(count int64, offset int64) ([]TemplateInfo, error) {
 	res := templatesResponse{}
-	// TODO include limit/offset
-	err := client.doRequest("GET", "templates", nil, &res)
+
+	values := &url.Values{}
+	if count > 0 {
+		values.Add("count", fmt.Sprintf("%d", count))
+	}
+	if offset > 0 {
+		values.Add("offset", fmt.Sprintf("%d", offset))
+	}
+
+	path := fmt.Sprintf("templates?%s", values.Encode())
+
+	err := client.doRequest("GET", path, nil, &res)
 	if err != nil {
 		return res.Templates, err
 	}
@@ -66,6 +81,7 @@ func (client *Client) Templates() ([]TemplateInfo, error) {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// CreateTemplate saves a new template to the server
 func (client *Client) CreateTemplate(template Template) (TemplateInfo, error) {
 	res := TemplateInfo{}
 	err := client.doRequest("POST", "templates", template, &res)
@@ -79,6 +95,7 @@ func (client *Client) CreateTemplate(template Template) (TemplateInfo, error) {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// EditTemplate updates details for a specific template with templateID
 func (client *Client) EditTemplate(templateID string, template Template) (TemplateInfo, error) {
 	res := TemplateInfo{}
 	path := fmt.Sprintf("templates/%s", templateID)
@@ -93,6 +110,7 @@ func (client *Client) EditTemplate(templateID string, template Template) (Templa
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// DeleteTemplate removes a template (with templateID) from the server
 func (client *Client) DeleteTemplate(templateID string) error {
 	errRes := APIError{}
 	path := fmt.Sprintf("templates/%s", templateID)
@@ -107,3 +125,6 @@ func (client *Client) DeleteTemplate(templateID string) error {
 
 	return errRes
 }
+
+///////////////////////////////////////
+///////////////////////////////////////

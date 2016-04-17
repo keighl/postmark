@@ -12,7 +12,7 @@
     * [x] Get a template
     * [x] Create a template
     * [x] Edit a template
-    * [ ] List templates
-    * [ ] Delete a template
+    * [x] List templates
+    * [x] Delete a template
     * [ ] Validate a template
     * [ ] Send email with template

@@ -1,3 +1,4 @@
+// Package postmark ...
 package postmark
 
 import (
@@ -12,20 +13,19 @@ var (
 	postmarkURL = `https://api.postmarkapp.com`
 )
 
+// Client provides a connection to the Postmark API
 type Client struct {
-	// HTTPClient
+	// HTTPClient is &http.Client{} by default
 	HTTPClient *http.Client
-
-	// Server Token
+	// Server Token: Used for requests that require server level privileges. This token can be found on the Credentials tab under your Postmark server.
 	ServerToken string
-
-	// AccountToken
+	// AccountToken: Used for requests that require account level privileges. This token is only accessible by the account owner, and can be found on the Account tab of your Postmark account.
 	AccountToken string
-
-	// BaseURL
+	// BaseURL is the root API endpoint
 	BaseURL string
 }
 
+// NewClient builds a new Client pointer using the provided tokens, a default HTTPClient, and a default API base URL
 func NewClient(serverToken string, accountToken string) *Client {
 	return &Client{
 		HTTPClient:   &http.Client{},
@@ -69,11 +69,15 @@ func (client *Client) doRequest(method string, path string, payload interface{},
 	return err
 }
 
+// APIError represents errors returned by Postmark
 type APIError struct {
+	// ErrorCode: see error codes here (http://developer.postmarkapp.com/developer-api-overview.html#error-codes)
 	ErrorCode int64
-	Message   string
+	// Message contains error details
+	Message string
 }
 
+// Error returns the error message details
 func (res APIError) Error() string {
 	return res.Message
 }
