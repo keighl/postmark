@@ -60,12 +60,32 @@ type EmailResponse struct {
 	Message string
 }
 
+func (res EmailResponse) Error() string {
+    return res.Message
+}
+
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	res := EmailResponse{}
 	err := client.doRequest("POST", "email", email, &res)
 	if err != nil {
 		return res, err
 	}
+
+    // TODO check for ErrorCode > 0 ?
+    // http://developer.postmarkapp.com/developer-api-email.html#send-email
+
+	return res, nil
+}
+
+func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
+	res := []EmailResponse{}
+	err := client.doRequest("POST", "email/batch", emails, &res)
+	if err != nil {
+		return res, err
+	}
+
+    // TODO check for ErrorCodes > 0 ?
+    // http://developer.postmarkapp.com/developer-api-email.html#send-email
 
 	return res, nil
 }

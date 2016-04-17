@@ -10,7 +10,7 @@
 
 * [ ] Emails
     * [x] Send a single email
-    * [ ] Send a batch emails    
+    * [x] Send a batch emails    
 * [ ] Templates
     * [x] Get a template
     * [x] Create a template
