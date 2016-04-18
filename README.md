@@ -8,7 +8,7 @@
 
 ### API Coverage
 
-* [ ] Emails
+* [x] Emails
     * [x] Send a single email
     * [x] Send a batch emails    
 * [ ] Templates
