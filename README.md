@@ -10,7 +10,15 @@
 
 * [x] Emails
     * [x] Send a single email
-    * [x] Send a batch emails    
+    * [x] Send a batch emails  
+* [ ] Bounce
+    * [ ] Get delivery stats
+    * [ ] Get bounces
+    * [ ] Get a single bounce
+    * [ ] Get bounce dump
+    * [ ] Activate a bounce
+    * [ ] Get bounced tags
+    * [ ] Bounce types  
 * [ ] Templates
     * [x] Get a template
     * [x] Create a template
@@ -18,4 +26,47 @@
     * [x] List templates
     * [x] Delete a template
     * [ ] Validate a template
-    * [ ] Send email with template
+    * [x] Send email with template
+* [ ] Servers
+    * [ ] Get the server
+    * [ ] Edit the server
+* [ ] Messages
+    * [ ] Outbound message search
+    * [ ] Outbound message details
+    * [ ] Outbound message dump
+    * [ ] Inbound message search
+    * [ ] Inbound message details
+    * [ ] Bypass blocked inbound message
+    * [ ] Retry a failed inbound message
+    * [ ] Message opens
+    * [ ] Opens for a single message
+* Sender signatures
+    * [ ] List sender signatures
+    * [ ] Get a sender signature’s details
+    * [ ] Create a signature
+    * [ ] Edit a signature
+    * [ ] Delete a signature
+    * [ ] Resend a confirmation
+    * [ ] Verify an SPF record
+    * [ ] Request a new DKIM
+* Stats
+    * [ ] Get outbound overview
+    * [ ] Get sent counts
+    * [ ] Get bounce counts
+    * [ ] Get spam complaints
+    * [ ] Get tracked email counts
+    * [ ] Get email open counts
+    * [ ] Get email platform usage
+    * [ ] Get email client usage
+    * [ ] Get email read times
+* Triggers
+    * Tags triggers
+        * [ ] Create a trigger for a tag
+        * [ ] Get a single trigger
+        * [ ] Edit a single trigger
+        * [ ] Delete a single trigger
+        * [ ] Search triggers
+    * Inbound rules triggers
+        * [ ] Create a trigger for inbound rule
+        * [ ] Delete a single trigger
+        * [ ] List triggers    

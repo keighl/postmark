@@ -41,11 +41,7 @@ func (client *Client) Template(templateID string) (Template, error) {
 	res := Template{}
 	path := fmt.Sprintf("templates/%s", templateID)
 	err := client.doRequest("GET", path, nil, &res)
-	if err != nil {
-		return res, err
-	}
-
-	return res, nil
+	return res, err
 }
 
 ///////////////////////////////////////
@@ -61,21 +57,13 @@ func (client *Client) Templates(count int64, offset int64) ([]TemplateInfo, erro
 	res := templatesResponse{}
 
 	values := &url.Values{}
-	if count > 0 {
-		values.Add("count", fmt.Sprintf("%d", count))
-	}
-	if offset > 0 {
-		values.Add("offset", fmt.Sprintf("%d", offset))
-	}
+	values.Add("count", fmt.Sprintf("%d", count))
+	values.Add("offset", fmt.Sprintf("%d", offset))
 
 	path := fmt.Sprintf("templates?%s", values.Encode())
 
 	err := client.doRequest("GET", path, nil, &res)
-	if err != nil {
-		return res.Templates, err
-	}
-
-	return res.Templates, nil
+	return res.Templates, err
 }
 
 ///////////////////////////////////////
@@ -85,11 +73,7 @@ func (client *Client) Templates(count int64, offset int64) ([]TemplateInfo, erro
 func (client *Client) CreateTemplate(template Template) (TemplateInfo, error) {
 	res := TemplateInfo{}
 	err := client.doRequest("POST", "templates", template, &res)
-	if err != nil {
-		return res, err
-	}
-
-	return res, nil
+	return res, err
 }
 
 ///////////////////////////////////////
@@ -100,11 +84,7 @@ func (client *Client) EditTemplate(templateID string, template Template) (Templa
 	res := TemplateInfo{}
 	path := fmt.Sprintf("templates/%s", templateID)
 	err := client.doRequest("PUT", path, template, &res)
-	if err != nil {
-		return res, err
-	}
-
-	return res, nil
+	return res, err
 }
 
 ///////////////////////////////////////
@@ -128,3 +108,38 @@ func (client *Client) DeleteTemplate(templateID string) error {
 
 ///////////////////////////////////////
 ///////////////////////////////////////
+
+// TemplatedEmail is used to send an email via a template
+type TemplatedEmail struct {
+	// TemplateId: REQUIRED - The template to use when sending this message.
+	TemplateId int64
+	// TemplateModel: The model to be applied to the specified template to generate HtmlBody, TextBody, and Subject.
+	TemplateModel map[string]interface{}
+	// InlineCss: By default, if the specified template contains an HTMLBody, we will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.
+	InlineCss bool
+	// From: The sender email address. Must have a registered and confirmed Sender Signature.
+	From string
+	// To: REQUIRED Recipient email address. Multiple addresses are comma seperated. Max 50.
+	To string
+	// Cc recipient email address. Multiple addresses are comma seperated. Max 50.
+	Cc string
+	// Bcc recipient email address. Multiple addresses are comma seperated. Max 50.
+	Bcc string
+	// Tag: Email tag that allows you to categorize outgoing emails and get detailed statistics.
+	Tag string
+	// Reply To override email address. Defaults to the Reply To set in the sender signature.
+	ReplyTo string
+	// Headers: List of custom headers to include.
+	Headers []Header `json:"omitempty"`
+	// TrackOpens: Activate open tracking for this email.
+	TrackOpens bool `json:"omitempty"`
+	// Attachments: List of attachments
+	Attachments []Attachment `json:"omitempty"`
+}
+
+// SendTemplatedEmail sends an email using a template (TemplateId)
+func (client *Client) SendTemplatedEmail(email TemplatedEmail) (EmailResponse, error) {
+	res := EmailResponse{}
+	err := client.doRequest("POST", "email/withTemplate", email, &res)
+	return res, err
+}
