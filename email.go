@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Email is exactly what it sounds like
 type Email struct {
 	// From: REQUIRED The sender email address. Must have a registered and confirmed Sender Signature.
 	From string `json:",omitempty"`
@@ -31,6 +32,7 @@ type Email struct {
 	Attachments []Attachment `json:",omitempty"`
 }
 
+// Header is an optional header to send along with an email
 type Header struct {
 	// Name: custom header name
 	Name string
@@ -38,6 +40,7 @@ type Header struct {
 	Value string
 }
 
+// Attachment is an optional encoded file to send along with an email
 type Attachment struct {
 	// Name: attachment name
 	Name string
@@ -47,6 +50,8 @@ type Attachment struct {
 	ContentType string
 }
 
+// EmailResponse holds info in response to a send/send-batch request
+// Even if API request comes back sucessful, check the ErrorCode to see if there might be a delivery problem
 type EmailResponse struct {
 	// To: Recipient email address
 	To string
@@ -64,6 +69,7 @@ func (res EmailResponse) Error() string {
 	return res.Message
 }
 
+// SendEmail sends, well, an email.
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	res := EmailResponse{}
 	err := client.doRequest("POST", "email", email, &res)
@@ -73,6 +79,7 @@ func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	// http://developer.postmarkapp.com/developer-api-email.html#send-email
 }
 
+// SendEmailBatch sends multiple emails together
 func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
 	res := []EmailResponse{}
 	err := client.doRequest("POST", "email/batch", emails, &res)

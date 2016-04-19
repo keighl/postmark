@@ -12,9 +12,9 @@
     * [x] Send a single email
     * [x] Send a batch emails  
 * [ ] Bounce
-    * [ ] Get delivery stats
-    * [ ] Get bounces
-    * [ ] Get a single bounce
+    * [x] Get delivery stats
+    * [x] Get bounces
+    * [x] Get a single bounce
     * [ ] Get bounce dump
     * [ ] Activate a bounce
     * [ ] Get bounced tags

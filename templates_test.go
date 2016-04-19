@@ -7,7 +7,7 @@ import (
 	"goji.io/pat"
 )
 
-func TestTemplate(t *testing.T) {
+func TestGetTemplate(t *testing.T) {
 	tMux.HandleFunc(pat.Get("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(`{
 			"Name": "Onboarding Email",
@@ -20,7 +20,7 @@ func TestTemplate(t *testing.T) {
 		}`))
 	})
 
-	res, err := client.Template("1234")
+	res, err := client.GetTemplate("1234")
 	if err != nil {
 		t.Fatalf("Template: %s", err.Error())
 	}
@@ -30,7 +30,7 @@ func TestTemplate(t *testing.T) {
 	}
 }
 
-func TestTemplates(t *testing.T) {
+func TestGetTemplates(t *testing.T) {
 	tMux.HandleFunc(pat.Get("/templates"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(`{
 			"TotalCount": 2,
@@ -48,13 +48,17 @@ func TestTemplates(t *testing.T) {
 		}`))
 	})
 
-	res, err := client.Templates(100, 10)
+	res, count, err := client.GetTemplates(100, 10)
 	if err != nil {
-		t.Fatalf("Templates: %s", err.Error())
+		t.Fatalf("GetTemplates: %s", err.Error())
 	}
 
 	if len(res) == 0 {
-		t.Fatalf("Templates: unmarshaled to empty")
+		t.Fatalf("GetTemplates: unmarshaled to empty")
+	}
+
+	if count != 2 {
+		t.Fatalf("GetTemplates: unmarshaled to empty")
 	}
 }
 

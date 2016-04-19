@@ -36,8 +36,8 @@ type TemplateInfo struct {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// Template fetches a specific template via TemplateID
-func (client *Client) Template(templateID string) (Template, error) {
+// GetTemplate fetches a specific template via TemplateID
+func (client *Client) GetTemplate(templateID string) (Template, error) {
 	res := Template{}
 	path := fmt.Sprintf("templates/%s", templateID)
 	err := client.doRequest("GET", path, nil, &res)
@@ -52,8 +52,9 @@ type templatesResponse struct {
 	Templates  []TemplateInfo
 }
 
-// Templates fetches a list of templates on the server
-func (client *Client) Templates(count int64, offset int64) ([]TemplateInfo, error) {
+// GetTemplates fetches a list of templates on the server
+// It returns a Template slice, the total template count, and any error that occured
+func (client *Client) GetTemplates(count int64, offset int64) ([]TemplateInfo, int64, error) {
 	res := templatesResponse{}
 
 	values := &url.Values{}
@@ -63,7 +64,7 @@ func (client *Client) Templates(count int64, offset int64) ([]TemplateInfo, erro
 	path := fmt.Sprintf("templates?%s", values.Encode())
 
 	err := client.doRequest("GET", path, nil, &res)
-	return res.Templates, err
+	return res.Templates, res.TotalCount, err
 }
 
 ///////////////////////////////////////
