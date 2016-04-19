@@ -9,14 +9,14 @@ import (
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// BounceType represents a type of bounce, and how many bounces have occured
+// BounceType represents a type of bounce, and how many bounces have occurred
 // http://developer.postmarkapp.com/developer-api-bounce.html#bounce-types
 type BounceType struct {
 	// Type: bounce type identifier
 	Type string
 	// Name: full name of the bounce type
 	Name string
-	// Count: how many bounces have occured
+	// Count: how many bounces have occurred
 	Count int64
 }
 
@@ -77,7 +77,7 @@ type bouncesResponse struct {
 }
 
 // GetBounces returns bounces for the server
-// It returns a Bounce slice, the total bounce count, and any error that occured
+// It returns a Bounce slice, the total bounce count, and any error that occurred
 // See options: http://developer.postmarkapp.com/developer-api-bounce.html#bounces
 func (client *Client) GetBounces(count int64, offset int64, options map[string]interface{}) ([]Bounce, int64, error) {
 	res := bouncesResponse{}

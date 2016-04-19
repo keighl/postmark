@@ -53,7 +53,7 @@ type templatesResponse struct {
 }
 
 // GetTemplates fetches a list of templates on the server
-// It returns a Template slice, the total template count, and any error that occured
+// It returns a Template slice, the total template count, and any error that occurred
 func (client *Client) GetTemplates(count int64, offset int64) ([]TemplateInfo, int64, error) {
 	res := templatesResponse{}
 
@@ -120,11 +120,11 @@ type TemplatedEmail struct {
 	InlineCss bool `json:",omitempty"`
 	// From: The sender email address. Must have a registered and confirmed Sender Signature.
 	From string `json:",omitempty"`
-	// To: REQUIRED Recipient email address. Multiple addresses are comma seperated. Max 50.
+	// To: REQUIRED Recipient email address. Multiple addresses are comma separated. Max 50.
 	To string `json:",omitempty"`
-	// Cc recipient email address. Multiple addresses are comma seperated. Max 50.
+	// Cc recipient email address. Multiple addresses are comma separated. Max 50.
 	Cc string `json:",omitempty"`
-	// Bcc recipient email address. Multiple addresses are comma seperated. Max 50.
+	// Bcc recipient email address. Multiple addresses are comma separated. Max 50.
 	Bcc string `json:",omitempty"`
 	// Tag: Email tag that allows you to categorize outgoing emails and get detailed statistics.
 	Tag string `json:",omitempty"`

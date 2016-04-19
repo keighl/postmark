@@ -51,7 +51,7 @@ type Attachment struct {
 }
 
 // EmailResponse holds info in response to a send/send-batch request
-// Even if API request comes back sucessful, check the ErrorCode to see if there might be a delivery problem
+// Even if API request comes back successful, check the ErrorCode to see if there might be a delivery problem
 type EmailResponse struct {
 	// To: Recipient email address
 	To string
