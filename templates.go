@@ -114,27 +114,27 @@ type TemplatedEmail struct {
 	// TemplateId: REQUIRED - The template to use when sending this message.
 	TemplateId int64
 	// TemplateModel: The model to be applied to the specified template to generate HtmlBody, TextBody, and Subject.
-	TemplateModel map[string]interface{}
+	TemplateModel map[string]interface{} `json:",omitempty"`
 	// InlineCss: By default, if the specified template contains an HTMLBody, we will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.
-	InlineCss bool
+	InlineCss bool `json:",omitempty"`
 	// From: The sender email address. Must have a registered and confirmed Sender Signature.
-	From string
+	From string `json:",omitempty"`
 	// To: REQUIRED Recipient email address. Multiple addresses are comma seperated. Max 50.
-	To string
+	To string `json:",omitempty"`
 	// Cc recipient email address. Multiple addresses are comma seperated. Max 50.
-	Cc string
+	Cc string `json:",omitempty"`
 	// Bcc recipient email address. Multiple addresses are comma seperated. Max 50.
-	Bcc string
+	Bcc string `json:",omitempty"`
 	// Tag: Email tag that allows you to categorize outgoing emails and get detailed statistics.
-	Tag string
+	Tag string `json:",omitempty"`
 	// Reply To override email address. Defaults to the Reply To set in the sender signature.
-	ReplyTo string
+	ReplyTo string `json:",omitempty"`
 	// Headers: List of custom headers to include.
-	Headers []Header `json:"omitempty"`
+	Headers []Header `json:",omitempty"`
 	// TrackOpens: Activate open tracking for this email.
-	TrackOpens bool `json:"omitempty"`
+	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
-	Attachments []Attachment `json:"omitempty"`
+	Attachments []Attachment `json:",omitempty"`
 }
 
 // SendTemplatedEmail sends an email using a template (TemplateId)

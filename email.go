@@ -6,29 +6,29 @@ import (
 
 type Email struct {
 	// From: REQUIRED The sender email address. Must have a registered and confirmed Sender Signature.
-	From string `json:"omitempty"`
+	From string `json:",omitempty"`
 	// To: REQUIRED Recipient email address. Multiple addresses are comma separated. Max 50.
-	To string `json:"omitempty"`
+	To string `json:",omitempty"`
 	// Cc recipient email address. Multiple addresses are comma separated. Max 50.
-	Cc string `json:"omitempty"`
+	Cc string `json:",omitempty"`
 	// Bcc recipient email address. Multiple addresses are comma separated. Max 50.
-	Bcc string `json:"omitempty"`
+	Bcc string `json:",omitempty"`
 	// Subject: Email subject
-	Subject string `json:"omitempty"`
+	Subject string `json:",omitempty"`
 	// Tag: Email tag that allows you to categorize outgoing emails and get detailed statistics.
-	Tag string `json:"omitempty"`
+	Tag string `json:",omitempty"`
 	// HtmlBody: HTML email message. REQUIRED, If no TextBody specified
-	HtmlBody string `json:"omitempty"`
+	HtmlBody string `json:",omitempty"`
 	// TextBody: Plain text email message. REQUIRED, If no HtmlBody specified
-	TextBody string `json:"omitempty"`
+	TextBody string `json:",omitempty"`
 	// ReplyTo: Reply To override email address. Defaults to the Reply To set in the sender signature.
-	ReplyTo string `json:"omitempty"`
+	ReplyTo string `json:",omitempty"`
 	// Headers: List of custom headers to include.
-	Headers []Header `json:"omitempty"`
+	Headers []Header `json:",omitempty"`
 	// TrackOpens: Activate open tracking for this email.
-	TrackOpens bool `json:"omitempty"`
+	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
-	Attachments []Attachment `json:"omitempty"`
+	Attachments []Attachment `json:",omitempty"`
 }
 
 type Header struct {
