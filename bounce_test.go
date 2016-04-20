@@ -144,3 +144,21 @@ func TestGetBounce(t *testing.T) {
 		t.Fatalf("GetBounce: wrong ID (%v)", res.ID)
 	}
 }
+
+func TestGetBounceDump(t *testing.T) {
+	tMux.HandleFunc(pat.Get("/bounces/:bounceID/dump"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(`{
+	      "Body": "..."
+	    }`))
+	})
+
+	res, err := client.GetBounceDump(692560173)
+
+	if err != nil {
+		t.Fatalf("GetBounceDump: %s", err.Error())
+	}
+
+	if res != "..." {
+		t.Fatalf("GetBounceDump: wrong dump body (%v)", res)
+	}
+}

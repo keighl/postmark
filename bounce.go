@@ -99,10 +99,26 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// GetBounce fetches a bounce with bounceID
+// GetBounce fetches a single bounce with bounceID
 func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	res := Bounce{}
 	path := fmt.Sprintf("bounces/%v", bounceID)
 	err := client.doRequest("GET", path, nil, &res)
 	return res, err
+}
+
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+type bounceDumpResponse struct {
+	Body string
+}
+
+// GetBounceDump fetches a SMTP data dump for a single bounce
+func (client *Client) GetBounceDump(bounceID int64) (string, error) {
+	res := bounceDumpResponse{}
+	path := fmt.Sprintf("bounces/%v/dump", bounceID)
+	err := client.doRequest("GET", path, nil, &res)
+	return res.Body, err
 }
