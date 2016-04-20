@@ -18,7 +18,7 @@ A Golang package for the using Postmark API.
     * [x] Get bounces
     * [x] Get a single bounce
     * [x] Get bounce dump
-    * [ ] Activate a bounce
+    * [x] Activate a bounce
     * [ ] Get bounced tags
     * [ ] Bounce types  
 * [ ] Templates

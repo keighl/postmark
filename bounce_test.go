@@ -162,3 +162,41 @@ func TestGetBounceDump(t *testing.T) {
 		t.Fatalf("GetBounceDump: wrong dump body (%v)", res)
 	}
 }
+
+func TestActivateBounce(t *testing.T) {
+	tMux.HandleFunc(pat.Put("/bounces/:bounceID/activate"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(`{
+			"Message": "OK",
+		    "Bounce": {
+		      "ID": 692560173,
+		      "Type": "HardBounce",
+		      "TypeCode": 1,
+		      "Name": "Hard bounce",
+		      "Tag": "Invitation",
+		      "MessageID": "2c1b63fe-43f2-4db5-91b0-8bdfa44a9316",
+		      "Description": "The server was unable to deliver your message (ex: unknown user, mailbox not found).",
+		      "Details": "action: failed\r\n",
+		      "Email": "anything@blackhole.postmarkap.com",
+		      "BouncedAt": "2014-01-15T16:09:19.6421112-05:00",
+		      "DumpAvailable": false,
+		      "Inactive": false,
+		      "CanActivate": true,
+		      "Subject": "SC API5 Test",
+		      "Content": "Return-Path: <>\r\nReceived: …"
+		    }
+	    }`))
+	})
+
+	res, mess, err := client.ActivateBounce(692560173)
+
+	if err != nil {
+		t.Fatalf("ActivateBounce: %s", err.Error())
+	}
+
+	if res.ID != 692560173 {
+		t.Fatalf("ActivateBounce: wrong bounce ID (%v)", res.ID)
+	}
+	if mess != "OK" {
+		t.Fatalf("ActivateBounce: wrong message (%v)", mess)
+	}
+}

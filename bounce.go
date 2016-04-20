@@ -107,7 +107,6 @@ func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	return res, err
 }
 
-
 ///////////////////////////////////////
 ///////////////////////////////////////
 
@@ -121,4 +120,22 @@ func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
 	err := client.doRequest("GET", path, nil, &res)
 	return res.Body, err
+}
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+type activateBounceResponse struct {
+	Message string
+	Bounce Bounce
+}
+
+// ActivateBounce reactivates a bounce for resending. Returns the bounce, a
+// message, and any error that occurs
+// TODO: clarify this with Postmark
+func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
+	res := activateBounceResponse{}
+	path := fmt.Sprintf("bounces/%v/activate", bounceID)
+	err := client.doRequest("PUT", path, nil, &res)
+	return res.Bounce, res.Message, err
 }
