@@ -127,7 +127,7 @@ func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 
 type activateBounceResponse struct {
 	Message string
-	Bounce Bounce
+	Bounce  Bounce
 }
 
 // ActivateBounce reactivates a bounce for resending. Returns the bounce, a

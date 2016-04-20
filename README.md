@@ -42,7 +42,7 @@ A Golang package for the using Postmark API.
     * [ ] Retry a failed inbound message
     * [ ] Message opens
     * [ ] Opens for a single message
-* Sender signatures
+* [ ] Sender signatures
     * [ ] List sender signatures
     * [ ] Get a sender signature’s details
     * [ ] Create a signature
