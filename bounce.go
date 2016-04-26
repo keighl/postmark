@@ -1,6 +1,7 @@
 package postmark
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
 	"time"
@@ -138,4 +139,30 @@ func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
 	path := fmt.Sprintf("bounces/%v/activate", bounceID)
 	err := client.doRequest("PUT", path, nil, &res)
 	return res.Bounce, res.Message, err
+}
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+type bouncedTagsResponse struct {
+	Tags []string `json:"tags"`
+}
+
+// GetBouncedTags retrieves a list of tags that have generated bounced emails
+func (client *Client) GetBouncedTags() ([]string, error) {
+	var raw json.RawMessage
+	path := fmt.Sprintf("bounces/tags")
+	err := client.doRequest("GET", path, nil, &raw)
+
+	if err != nil {
+		return []string{}, err
+	}
+
+	// PM returns this payload in an impossible to unmarshal way
+	// ["tag1","tag2","tag3"]. So let's rejigger it to make it possible.
+	jsonString := fmt.Sprintf(`{"tags": %s}`, string(raw))
+	res := bouncedTagsResponse{}
+	err = json.Unmarshal([]byte(jsonString), &res)
+
+	return res.Tags, err
 }

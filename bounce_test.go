@@ -114,7 +114,7 @@ func TestGetBounces(t *testing.T) {
 }
 
 func TestGetBounce(t *testing.T) {
-	tMux.HandleFunc(pat.Get("/bounces/:bounceID"), func(w http.ResponseWriter, req *http.Request) {
+	tMux.HandleFunc(pat.Get("/bounces/692560173"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(`{
       "ID": 692560173,
       "Type": "HardBounce",
@@ -146,7 +146,7 @@ func TestGetBounce(t *testing.T) {
 }
 
 func TestGetBounceDump(t *testing.T) {
-	tMux.HandleFunc(pat.Get("/bounces/:bounceID/dump"), func(w http.ResponseWriter, req *http.Request) {
+	tMux.HandleFunc(pat.Get("/bounces/692560173/dump"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(`{
 	      "Body": "..."
 	    }`))
@@ -164,7 +164,7 @@ func TestGetBounceDump(t *testing.T) {
 }
 
 func TestActivateBounce(t *testing.T) {
-	tMux.HandleFunc(pat.Put("/bounces/:bounceID/activate"), func(w http.ResponseWriter, req *http.Request) {
+	tMux.HandleFunc(pat.Put("/bounces/692560173/activate"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(`{
 			"Message": "OK",
 		    "Bounce": {
@@ -198,5 +198,25 @@ func TestActivateBounce(t *testing.T) {
 	}
 	if mess != "OK" {
 		t.Fatalf("ActivateBounce: wrong message (%v)", mess)
+	}
+}
+
+func TestGetBouncedTags(t *testing.T) {
+	tMux.HandleFunc(pat.Get("/bounces/tags"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(`[
+  			"tag1",
+  			"tag2",
+  			"tag3"]
+		`))
+	})
+
+	res, err := client.GetBouncedTags()
+
+	if err != nil {
+		t.Fatalf("GetBouncedTags: %s", err.Error())
+	}
+
+	if len(res) != 3 {
+		t.Fatalf("GetBouncedTags: wrong tag result (%v)", res)
 	}
 }
