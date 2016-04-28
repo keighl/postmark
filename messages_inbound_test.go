@@ -184,3 +184,32 @@ func TestBypassInboundMessage(t *testing.T) {
 		t.Fatalf("BypassInboundMessage should have failed")
 	}
 }
+
+func TestRetryInboundMessage(t *testing.T) {
+	responseJSON := `{
+	  "ErrorCode": 0,
+	  "Message": "Successfully rescheduled failed message: 041e3d29-737d-491e-9a13-a94d3rjkjka13."
+	}`
+
+	tMux.HandleFunc(pat.Put("/messages/inbound/041e3d29-737d-491e-9a13-a94d3rjkjka13/retry"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	// Success
+	err := client.RetryInboundMessage("041e3d29-737d-491e-9a13-a94d3rjkjka13")
+	if err != nil {
+		t.Fatalf("RetryInboundMessage: %s", err.Error())
+	}
+
+	// Failure
+	responseJSON = `{
+	  "ErrorCode": 701,
+	  "Message": "This message was not found or cannot be retried."
+	}`
+
+	err = client.RetryInboundMessage("041e3d29-737d-491e-9a13-a94d3rjkjka13")
+
+	if err.Error() != "This message was not found or cannot be retried." {
+		t.Fatalf("RetryInboundMessage should have failed")
+	}
+}

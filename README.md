@@ -40,8 +40,8 @@ A Golang package for the using Postmark API.
 * [ ] Inbound Messages
     * [x] `GET /messages/inbound`
     * [x] `GET /messages/inbound/:id/details`
-    * [ ] Bypass blocked inbound message
-    * [ ] Retry a failed inbound message
+    * [x] `PUT /messages/inbound/:id/bypass`
+    * [x] `PUT /messages/inbound/:id/retry`
 * [ ] Sender signatures
     * [ ] List sender signatures
     * [ ] Get a sender signature’s details

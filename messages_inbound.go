@@ -113,3 +113,22 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 
 	return errRes
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+// RetryInboundMessage - Retry a failed inbound message for processing
+func (client *Client) RetryInboundMessage(messageID string) error {
+	errRes := APIError{}
+	path := fmt.Sprintf("messages/inbound/%s/retry", messageID)
+	err := client.doRequest("PUT", path, nil, &errRes)
+	if err != nil {
+		return err
+	}
+
+	if errRes.ErrorCode == 0 {
+		return nil
+	}
+
+	return errRes
+}
