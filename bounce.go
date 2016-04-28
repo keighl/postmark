@@ -79,7 +79,7 @@ type bouncesResponse struct {
 
 // GetBounces returns bounces for the server
 // It returns a Bounce slice, the total bounce count, and any error that occurred
-// See options: http://developer.postmarkapp.com/developer-api-bounce.html#bounces
+// Available options: http://developer.postmarkapp.com/developer-api-bounce.html#bounces
 func (client *Client) GetBounces(count int64, offset int64, options map[string]interface{}) ([]Bounce, int64, error) {
 	res := bouncesResponse{}
 
@@ -111,13 +111,13 @@ func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-type bounceDumpResponse struct {
+type dumpResponse struct {
 	Body string
 }
 
 // GetBounceDump fetches a SMTP data dump for a single bounce
 func (client *Client) GetBounceDump(bounceID int64) (string, error) {
-	res := bounceDumpResponse{}
+	res := dumpResponse{}
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
 	err := client.doRequest("GET", path, nil, &res)
 	return res.Body, err

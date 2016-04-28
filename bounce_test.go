@@ -137,7 +137,7 @@ func TestGetBounce(t *testing.T) {
 	res, err := client.GetBounce(692560173)
 
 	if err != nil {
-		t.Fatalf("GetBounces: %s", err.Error())
+		t.Fatalf("GetBounce: %s", err.Error())
 	}
 
 	if res.ID != 692560173 {

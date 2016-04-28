@@ -13,7 +13,7 @@ A Golang package for the using Postmark API.
 * [x] Emails
     * [x] Send a single email
     * [x] Send a batch emails  
-* [ ] Bounce
+* [x] Bounce
     * [x] Get delivery stats
     * [x] Get bounces
     * [x] Get a single bounce
@@ -28,19 +28,19 @@ A Golang package for the using Postmark API.
     * [x] Delete a template
     * [ ] Validate a template
     * [x] Send email with template
-* [ ] Servers
+* [x] Servers
     * [x] Get the server
     * [x] Edit the server
 * [ ] Messages
-    * [ ] Outbound message search
-    * [ ] Outbound message details
-    * [ ] Outbound message dump
+    * [x] Outbound message search
+    * [x] Outbound message details
+    * [x] Outbound message dump
     * [ ] Inbound message search
     * [ ] Inbound message details
     * [ ] Bypass blocked inbound message
     * [ ] Retry a failed inbound message
-    * [ ] Message opens
-    * [ ] Opens for a single message
+    * [x] Message opens
+    * [x] Opens for a single message
 * [ ] Sender signatures
     * [ ] List sender signatures
     * [ ] Get a sender signature’s details
