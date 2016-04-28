@@ -51,6 +51,7 @@ func TestSendEmail(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
+	// Success
 	res, err := client.SendEmail(testEmail)
 
 	if err != nil {
@@ -59,6 +60,21 @@ func TestSendEmail(t *testing.T) {
 
 	if res.MessageID != "0a129aee-e1cd-480d-b08d-4f48548ff48d" {
 		t.Fatalf("SendEmail: wrong id!")
+	}
+
+	// Failure
+	responseJSON = `{
+		"To": "receiver@example.com",
+		"SubmittedAt": "2014-02-17T07:25:01.4178645-05:00",
+		"MessageID": "0a129aee-e1cd-480d-b08d-4f48548ff48d",
+		"ErrorCode": 401,
+		"Message": "Sender signature not confirmed"
+	}`
+
+	_, err = client.SendEmail(testEmail)
+
+	if err == nil {
+		t.Fatalf("SendEmail should have failed")
 	}
 }
 

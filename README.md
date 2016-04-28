@@ -37,7 +37,7 @@ A Golang package for the using Postmark API.
     * [x] `GET /messages/outbound/:id/dump`
     * [x] `GET /messages/outbound/opens`
     * [x] `GET /messages/outbound/opens/:id`
-* [ ] Inbound Messages
+* [x] Inbound Messages
     * [x] `GET /messages/inbound`
     * [x] `GET /messages/inbound/:id/details`
     * [x] `PUT /messages/inbound/:id/bypass`

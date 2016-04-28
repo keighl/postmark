@@ -1,6 +1,7 @@
 package postmark
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -65,26 +66,23 @@ type EmailResponse struct {
 	Message string
 }
 
-func (res EmailResponse) Error() string {
-	return res.Message
-}
-
 // SendEmail sends, well, an email.
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	res := EmailResponse{}
 	err := client.doRequest("POST", "email", email, &res)
-	return res, err
 
-	// TODO check for ErrorCode > 0 ?
-	// http://developer.postmarkapp.com/developer-api-email.html#send-email
+	if res.ErrorCode != 0 {
+		return res, fmt.Errorf(`%v %s`, res.ErrorCode, res.Message)
+	}
+
+	return res, err
 }
 
 // SendEmailBatch sends multiple emails together
+// Note, individual emails in the batch can error, so it would be wise to
+// range over the responses and sniff for errors
 func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
 	res := []EmailResponse{}
 	err := client.doRequest("POST", "email/batch", emails, &res)
 	return res, err
-
-	// TODO check for ErrorCode > 0 ?
-	// http://developer.postmarkapp.com/developer-api-email.html#send-email
 }

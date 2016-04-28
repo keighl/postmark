@@ -100,18 +100,15 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 
 // BypassInboundMessage - Bypass rules for a blocked inbound message
 func (client *Client) BypassInboundMessage(messageID string) error {
-	errRes := APIError{}
+	res := APIError{}
 	path := fmt.Sprintf("messages/inbound/%s/bypass", messageID)
-	err := client.doRequest("PUT", path, nil, &errRes)
-	if err != nil {
-		return err
+	err := client.doRequest("PUT", path, nil, &res)
+
+	if res.ErrorCode != 0 {
+		return res
 	}
 
-	if errRes.ErrorCode == 0 {
-		return nil
-	}
-
-	return errRes
+	return err
 }
 
 ///////////////////////////////////////
@@ -119,16 +116,13 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 
 // RetryInboundMessage - Retry a failed inbound message for processing
 func (client *Client) RetryInboundMessage(messageID string) error {
-	errRes := APIError{}
+	res := APIError{}
 	path := fmt.Sprintf("messages/inbound/%s/retry", messageID)
-	err := client.doRequest("PUT", path, nil, &errRes)
-	if err != nil {
-		return err
+	err := client.doRequest("PUT", path, nil, &res)
+
+	if res.ErrorCode != 0 {
+		return res
 	}
 
-	if errRes.ErrorCode == 0 {
-		return nil
-	}
-
-	return errRes
+	return err
 }

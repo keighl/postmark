@@ -130,9 +130,21 @@ func TestDeleteTemplate(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
+	// Success
 	err := client.DeleteTemplate("1234")
 	if err != nil {
 		t.Fatalf("DeleteTemplate: %s", err.Error())
+	}
+
+	// Failure
+	responseJSON = `{
+	  "ErrorCode": 402,
+	  "Message": "Invalid JSON"
+	}`
+
+	err = client.DeleteTemplate("1234")
+	if err == nil {
+		t.Fatalf("DeleteTemplate  should have failed")
 	}
 }
 

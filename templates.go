@@ -95,18 +95,15 @@ func (client *Client) EditTemplate(templateID string, template Template) (Templa
 
 // DeleteTemplate removes a template (with templateID) from the server
 func (client *Client) DeleteTemplate(templateID string) error {
-	errRes := APIError{}
+	res := APIError{}
 	path := fmt.Sprintf("templates/%s", templateID)
-	err := client.doRequest("DELETE", path, nil, &errRes)
-	if err != nil {
-		return err
+	err := client.doRequest("DELETE", path, nil, &res)
+
+	if res.ErrorCode != 0 {
+		return res
 	}
 
-	if errRes.ErrorCode == 0 {
-		return nil
-	}
-
-	return errRes
+	return err
 }
 
 ///////////////////////////////////////
