@@ -20,7 +20,6 @@ A Golang package for the using Postmark API.
     * [x] Get bounce dump
     * [x] Activate a bounce
     * [x] Get bounced tags
-    * [ ] Bounce types  
 * [ ] Templates
     * [x] Get a template
     * [x] Create a template
@@ -30,8 +29,8 @@ A Golang package for the using Postmark API.
     * [ ] Validate a template
     * [x] Send email with template
 * [ ] Servers
-    * [ ] Get the server
-    * [ ] Edit the server
+    * [x] Get the server
+    * [x] Edit the server
 * [ ] Messages
     * [ ] Outbound message search
     * [ ] Outbound message details
