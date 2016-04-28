@@ -8,16 +8,18 @@ import (
 )
 
 func TestGetTemplate(t *testing.T) {
+	responseJSON := `{
+		"Name": "Onboarding Email",
+		"TemplateId": 1234,
+		"Subject": "Hi there, {{Name}}",
+		"HtmlBody": "Hello dear Postmark user. {{Name}}",
+		"TextBody": "{{Name}} is a {{Occupation}}",
+		"AssociatedServerId": 1,
+		"Active": false
+	}`
+
 	tMux.HandleFunc(pat.Get("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-			"Name": "Onboarding Email",
-	        "TemplateId": 1234,
-	        "Subject": "Hi there, {{Name}}",
-	        "HtmlBody": "Hello dear Postmark user. {{Name}}",
-	        "TextBody": "{{Name}} is a {{Occupation}}",
-	        "AssociatedServerId": 1,
-	        "Active": false
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	res, err := client.GetTemplate("1234")
@@ -31,21 +33,24 @@ func TestGetTemplate(t *testing.T) {
 }
 
 func TestGetTemplates(t *testing.T) {
+	responseJSON := `{
+		"TotalCount": 2,
+		"Templates": [
+		  {
+			"Active": true,
+			"TemplateId": 1234,
+			"Name": "Account Activation Email"
+		  },
+		  {
+			"Active": true,
+			"TemplateId": 5678,
+			"Name": "Password Recovery Email"
+		  }
+		]
+	}`
+
 	tMux.HandleFunc(pat.Get("/templates"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-			"TotalCount": 2,
-	        "Templates": [
-	          {
-	            "Active": true,
-	            "TemplateId": 1234,
-	            "Name": "Account Activation Email"
-	          },
-	          {
-	            "Active": true,
-	            "TemplateId": 5678,
-	            "Name": "Password Recovery Email"
-	          }]
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	res, count, err := client.GetTemplates(100, 10)
@@ -63,12 +68,14 @@ func TestGetTemplates(t *testing.T) {
 }
 
 func TestCreateTemplate(t *testing.T) {
+	responseJSON := `{
+		"TemplateId": 1234,
+		"Name": "Onboarding Email",
+		"Active": true
+	}`
+
 	tMux.HandleFunc(pat.Post("/templates"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-			"TemplateId": 1234,
-			"Name": "Onboarding Email",
-			"Active": true
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	res, err := client.CreateTemplate(Template{
@@ -88,12 +95,14 @@ func TestCreateTemplate(t *testing.T) {
 }
 
 func TestEditTemplate(t *testing.T) {
+	responseJSON := `{
+		"TemplateId": 1234,
+		  "Name": "Onboarding Emailzzzzz",
+		  "Active": true
+	}`
+
 	tMux.HandleFunc(pat.Put("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-			"TemplateId": 1234,
-		  	  "Name": "Onboarding Emailzzzzz",
-		  	  "Active": true
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	res, err := client.EditTemplate("1234", Template{
@@ -112,11 +121,13 @@ func TestEditTemplate(t *testing.T) {
 }
 
 func TestDeleteTemplate(t *testing.T) {
+	responseJSON := `{
+	  "ErrorCode": 0,
+	  "Message": "Template 1234 removed."
+	}`
+
 	tMux.HandleFunc(pat.Delete("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-		  "ErrorCode": 0,
-		  "Message": "Template 1234 removed."
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	err := client.DeleteTemplate("1234")
@@ -162,14 +173,16 @@ var testTemplatedEmail = TemplatedEmail{
 }
 
 func TestSendTemplatedEmail(t *testing.T) {
+	responseJSON := `{
+		"To": "receiver@example.com",
+		"SubmittedAt": "2014-02-17T07:25:01.4178645-05:00",
+		"MessageID": "0a129aee-e1cd-480d-b08d-4f48548ff48d",
+		"ErrorCode": 0,
+		"Message": "OK"
+	}`
+
 	tMux.HandleFunc(pat.Post("/email/withTemplate"), func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(`{
-			"To": "receiver@example.com",
-			"SubmittedAt": "2014-02-17T07:25:01.4178645-05:00",
-			"MessageID": "0a129aee-e1cd-480d-b08d-4f48548ff48d",
-			"ErrorCode": 0,
-			"Message": "OK"
-		}`))
+		w.Write([]byte(responseJSON))
 	})
 
 	res, err := client.SendTemplatedEmail(testTemplatedEmail)

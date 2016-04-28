@@ -94,3 +94,22 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 	err := client.doRequest("GET", path, nil, &res)
 	return res.Messages, res.TotalCount, err
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+// BypassInboundMessage - Bypass rules for a blocked inbound message
+func (client *Client) BypassInboundMessage(messageID string) error {
+	errRes := APIError{}
+	path := fmt.Sprintf("messages/inbound/%s/bypass", messageID)
+	err := client.doRequest("PUT", path, nil, &errRes)
+	if err != nil {
+		return err
+	}
+
+	if errRes.ErrorCode == 0 {
+		return nil
+	}
+
+	return errRes
+}
