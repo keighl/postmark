@@ -32,11 +32,11 @@ type Email struct {
 	Attachments []Attachment `json:",omitempty"`
 }
 
-// Header is an optional header to send along with an email
+// Header - an email header
 type Header struct {
-	// Name: custom header name
+	// Name: header name
 	Name string
-	// Value: custom header value
+	// Value: header value
 	Value string
 }
 

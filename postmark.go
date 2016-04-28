@@ -26,6 +26,8 @@ type Client struct {
 }
 
 // NewClient builds a new Client pointer using the provided tokens, a default HTTPClient, and a default API base URL
+// Accepts `Server Token`, and `Account Token` as arguments
+// http://developer.postmarkapp.com/developer-api-overview.html#authentication
 func NewClient(serverToken string, accountToken string) *Client {
 	return &Client{
 		HTTPClient:   &http.Client{},

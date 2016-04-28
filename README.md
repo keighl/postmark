@@ -11,36 +11,37 @@ A Golang package for the using Postmark API.
 ### API Coverage
 
 * [x] Emails
-    * [x] Send a single email
-    * [x] Send a batch emails  
-* [x] Bounce
-    * [x] Get delivery stats
-    * [x] Get bounces
-    * [x] Get a single bounce
-    * [x] Get bounce dump
-    * [x] Activate a bounce
-    * [x] Get bounced tags
+    * [x] `POST /email`
+    * [x] `POST /email/batch`
+    * [x] `POST /email/withTemplate`
+* [x] Bounces
+    * [x] `GET /deliverystats`
+    * [x] `GET /bounces`
+    * [x] `GET /bounces/:id`
+    * [x] `GET /bounces/:id/dump`
+    * [x] `PUT /bounces/:id/activate`
+    * [x] `GET /bounces/tags`
 * [ ] Templates
-    * [x] Get a template
-    * [x] Create a template
-    * [x] Edit a template
-    * [x] List templates
-    * [x] Delete a template
-    * [ ] Validate a template
-    * [x] Send email with template
+    * [x] `GET /templates`
+    * [x] `POST /templates`
+    * [x] `GET /templates/:id`
+    * [x] `PUT /templates/:id`
+    * [x] `DELETE /templates/:id`
+    * [ ] `POST /templates/validate`
 * [x] Servers
-    * [x] Get the server
-    * [x] Edit the server
-* [ ] Messages
-    * [x] Outbound message search
-    * [x] Outbound message details
-    * [x] Outbound message dump
-    * [ ] Inbound message search
-    * [ ] Inbound message details
+    * [x] `GET /servers/:id`
+    * [x] `PUT /servers/:id`
+* [x] Outbound Messages
+    * [x] `GET /messages/outbound`
+    * [x] `GET /messages/outbound/:id/details`
+    * [x] `GET /messages/outbound/:id/dump`
+    * [x] `GET /messages/outbound/opens`
+    * [x] `GET /messages/outbound/opens/:id`
+* [ ] Inbound Messages
+    * [x] `GET /messages/inbound`
+    * [x] `GET /messages/inbound/:id/details`
     * [ ] Bypass blocked inbound message
     * [ ] Retry a failed inbound message
-    * [x] Message opens
-    * [x] Opens for a single message
 * [ ] Sender signatures
     * [ ] List sender signatures
     * [ ] Get a sender signature’s details

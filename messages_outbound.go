@@ -162,7 +162,7 @@ func (client *Client) GetOutboundMessagesOpens(count int64, offset int64, option
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// GetOutboundMessagesOpens fetches a list of opens for a specific message
+// GetOutboundMessageOpens fetches a list of opens for a specific message
 // It returns a Open slice, the total opens count, and any error that occurred
 func (client *Client) GetOutboundMessageOpens(messageID string, count int64, offset int64) ([]Open, int64, error) {
 	res := outboundMessageOpensResponse{}
