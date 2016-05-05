@@ -8,6 +8,44 @@ A Golang package for the using Postmark API.
 
     go get -u github.com/keighl/postmark
 
+### Basic Usage
+
+Grab your [`Server Token`](https://account.postmarkapp.com/servers/1881776/credentials), and your [`Account Token`](https://account.postmarkapp.com/account/edit).
+
+```golang
+client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
+
+email := postmark.Email{    
+	From: "no-reply@example.com",
+	To: "tito@example.com",
+	Subject: "Reset your password",
+	HtmlBody: "...",
+    TextBody: "..."
+	Tag: "pw-reset",
+	TrackOpens: true,
+}
+
+_, err = client.SendEmail(email)
+if err != nil {
+	panic(err)
+}
+```
+Swap out HTTPClient for use on Google App Engine:
+
+```
+import (
+    "google.golang.org/appengine"
+    "google.golang.org/appengine/urlfetch"
+)
+
+// ....
+
+client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
+
+ctx := appengine.NewContext(req)
+client.HTTPClient = urlfetch.Client(ctx)
+```
+
 ### API Coverage
 
 * [x] Emails
