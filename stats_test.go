@@ -33,11 +33,11 @@ func TestGetOutboundStats(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Fatalf("GetOutboundStats: %s", err.Error())
+		t.Fatalf("GetOutboundStats: %v", err.Error())
 	}
 
 	if res.Sent != 615 {
-		t.Fatalf("GetOutboundStats: wrong Sent: %s", res.Sent)
+		t.Fatalf("GetOutboundStats: wrong Sent: %v", res.Sent)
 	}
 }
 
@@ -74,11 +74,11 @@ func TestGetSentCounts(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Fatalf("GetSentCounts: %s", err.Error())
+		t.Fatalf("GetSentCounts: %v", err.Error())
 	}
 
 	if res.Sent != 615 {
-		t.Fatalf("GetSentCounts: wrong Sent: %s", res.Sent)
+		t.Fatalf("GetSentCounts: wrong Sent: %v", res.Sent)
 	}
 
 	if res.Days[0].Sent != 140 {
@@ -124,11 +124,11 @@ func TestGetBounceCounts(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Fatalf("GetBounceCounts: %s", err.Error())
+		t.Fatalf("GetBounceCounts: %v", err.Error())
 	}
 
 	if res.HardBounce != 12 {
-		t.Fatalf("GetBounceCounts: wrong HardBounce: %s", res.HardBounce)
+		t.Fatalf("GetBounceCounts: wrong HardBounce: %v", res.HardBounce)
 	}
 
 	if res.Days[0].HardBounce != 12 {
@@ -165,11 +165,11 @@ func TestGetSpamCounts(t *testing.T) {
 	})
 
 	if err != nil {
-		t.Fatalf("GetSpamCounts: %s", err.Error())
+		t.Fatalf("GetSpamCounts: %v", err.Error())
 	}
 
 	if res.SpamComplaint != 10 {
-		t.Fatalf("GetSpamCounts: wrong SpamComplaint: %s", res.SpamComplaint)
+		t.Fatalf("GetSpamCounts: wrong SpamComplaint: %v", res.SpamComplaint)
 	}
 
 	if res.Days[0].SpamComplaint != 2 {
