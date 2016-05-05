@@ -89,7 +89,7 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [ ] Resend a confirmation
     * [ ] Verify an SPF record
     * [ ] Request a new DKIM
-* Stats
+* [ ] Stats
     * [x] `GET /stats/outbound`
     * [x] `GET /stats/outbound/sends`
     * [x] `GET /stats/outbound/bounces`
@@ -99,14 +99,14 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [ ] Get email platform usage
     * [ ] Get email client usage
     * [ ] Get email read times
-* Triggers
-    * Tags triggers
+* [ ] Triggers
+    * [ ] Tags triggers
         * [ ] Create a trigger for a tag
         * [ ] Get a single trigger
         * [ ] Edit a single trigger
         * [ ] Delete a single trigger
         * [ ] Search triggers
-    * Inbound rules triggers
+    * [ ] Inbound rules triggers
         * [ ] Create a trigger for inbound rule
         * [ ] Delete a single trigger
         * [ ] List triggers    
