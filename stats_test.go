@@ -176,3 +176,52 @@ func TestGetSpamCounts(t *testing.T) {
 		t.Fatalf("GetSpamCounts: wrong day SpamComplaint count")
 	}
 }
+
+func TestGetTrackedCounts(t *testing.T) {
+	responseJSON := `{
+	  "Days": [
+	    {
+	      "Date": "2014-01-01",
+	      "Tracked": 24
+	    },
+	    {
+	      "Date": "2014-01-02",
+	      "Tracked": 26
+	    },
+	    {
+	      "Date": "2014-01-03",
+	      "Tracked": 15
+	    },
+	    {
+	      "Date": "2014-01-04",
+	      "Tracked": 15
+	    },
+	    {
+	      "Date": "2014-01-05",
+	      "Tracked": 31
+	    }
+	  ],
+	  "Tracked": 111
+	}`
+
+	tMux.HandleFunc(pat.Get("/stats/outbound/tracked"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	res, err := client.GetTrackedCounts(map[string]interface{}{
+		"fromdate": "2014-01-01",
+		"todate":   "2014-02-01",
+	})
+
+	if err != nil {
+		t.Fatalf("GetTrackedCounts: %v", err.Error())
+	}
+
+	if res.Tracked != 111 {
+		t.Fatalf("GetTrackedCounts: wrong Tracked: %v", res.Tracked)
+	}
+
+	if res.Days[0].Tracked != 24 {
+		t.Fatalf("GetTrackedCounts: wrong day Tracked count")
+	}
+}

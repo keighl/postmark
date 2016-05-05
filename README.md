@@ -56,7 +56,7 @@ A Golang package for the using Postmark API.
     * [x] `GET /stats/outbound/sends`
     * [x] `GET /stats/outbound/bounces`
     * [x] `GET /stats/outbound/spam`
-    * [ ] Get tracked email counts
+    * [x] `GET /stats/outbound/tracked`
     * [ ] Get email open counts
     * [ ] Get email platform usage
     * [ ] Get email client usage

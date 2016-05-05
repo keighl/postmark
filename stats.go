@@ -162,3 +162,36 @@ func (client *Client) GetSpamCounts(options map[string]interface{}) (SpamCounts,
 	err := client.doRequest("GET", path, nil, &res)
 	return res, err
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+// TrackedDay - tracked emails sent on a specific day
+type TrackedDay struct {
+	// Date - prettttay self explanatory
+	Date string
+	// Tracked - number of emails tracked sent
+	Tracked int64
+}
+
+// TrackedCounts - tracked emails sent for a period
+type TrackedCounts struct {
+	// Days - List of objects that each represent tracked email counts by date.
+	Days []TrackedDay
+	// Tracked - Indicates total number of tracked emails sent.
+	Tracked int64
+}
+
+// GetTrackedCounts - Gets a total count of emails you’ve sent with open tracking enabled.
+// Available options: http://developer.postmarkapp.com/developer-api-stats.html#email-tracked-count
+func (client *Client) GetTrackedCounts(options map[string]interface{}) (TrackedCounts, error) {
+	res := TrackedCounts{}
+	values := &url.Values{}
+	for k, v := range options {
+		values.Add(k, fmt.Sprintf("%v", v))
+	}
+
+	path := fmt.Sprintf("stats/outbound/tracked?%s", values.Encode())
+	err := client.doRequest("GET", path, nil, &res)
+	return res, err
+}
