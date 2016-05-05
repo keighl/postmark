@@ -52,10 +52,10 @@ A Golang package for the using Postmark API.
     * [ ] Verify an SPF record
     * [ ] Request a new DKIM
 * Stats
-    * [ ] Get outbound overview
-    * [ ] Get sent counts
-    * [ ] Get bounce counts
-    * [ ] Get spam complaints
+    * [x] `GET /stats/outbound`
+    * [x] `GET /stats/outbound/sends`
+    * [x] `GET /stats/outbound/bounces`
+    * [x] `GET /stats/outbound/spam`
     * [ ] Get tracked email counts
     * [ ] Get email open counts
     * [ ] Get email platform usage
