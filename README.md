@@ -10,7 +10,7 @@ A Golang package for the using Postmark API.
 
 ### Basic Usage
 
-Grab your [`Server Token`](https://account.postmarkapp.com/servers/1881776/credentials), and your [`Account Token`](https://account.postmarkapp.com/account/edit).
+Grab your [`Server Token`](https://account.postmarkapp.com/servers/XXXX/credentials), and your [`Account Token`](https://account.postmarkapp.com/account/edit).
 
 ```go
 client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
