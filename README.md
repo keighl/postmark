@@ -13,6 +13,10 @@ A Golang package for the using Postmark API.
 Grab your [`Server Token`](https://account.postmarkapp.com/servers/XXXX/credentials), and your [`Account Token`](https://account.postmarkapp.com/account/edit).
 
 ```go
+import (
+    "github.com/keighl/postmark"
+)
+
 client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
 
 email := postmark.Email{    
@@ -34,6 +38,7 @@ Swap out HTTPClient for use on Google App Engine:
 
 ```go
 import (
+    "github.com/keighl/postmark"
     "google.golang.org/appengine"
     "google.golang.org/appengine/urlfetch"
 )
@@ -44,6 +49,8 @@ client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
 
 ctx := appengine.NewContext(req)
 client.HTTPClient = urlfetch.Client(ctx)
+
+// ...
 ```
 
 ### API Coverage
