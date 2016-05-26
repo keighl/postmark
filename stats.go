@@ -195,3 +195,40 @@ func (client *Client) GetTrackedCounts(options map[string]interface{}) (TrackedC
 	err := client.doRequest("GET", path, nil, &res)
 	return res, err
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+// OpenedDay - opened outbound emails sent on a specific day
+type OpenedDay struct {
+	// Date - prettttay self explanatory
+	Date string
+	// Opens - Indicates total number of opened emails. This total includes recipients who opened your email multiple times.
+	Opens int64
+	// Unique - Indicates total number of uniquely opened emails.
+	Unique int64
+}
+
+// OpenCounts - opened outbound emails for a period
+type OpenCounts struct {
+	// Days - List of objects that each represent opens by date.
+	Days []OpenedDay
+	// Opens - Indicates total number of opened emails. This total includes recipients who opened your email multiple times.
+	Opens int64
+	// Unique int64 - Indicates total number of uniquely opened emails.
+	Unique int64
+}
+
+// GetOpenCounts - Gets total counts of recipients who opened your emails. This is only recorded when open tracking is enabled for that email.
+// Available options: http://developer.postmarkapp.com/developer-api-stats.html#email-opens-count
+func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts, error) {
+	res := OpenCounts{}
+	values := &url.Values{}
+	for k, v := range options {
+		values.Add(k, fmt.Sprintf("%v", v))
+	}
+
+	path := fmt.Sprintf("stats/outbound/opens?%s", values.Encode())
+	err := client.doRequest("GET", path, nil, &res)
+	return res, err
+}

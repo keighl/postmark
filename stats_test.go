@@ -225,3 +225,58 @@ func TestGetTrackedCounts(t *testing.T) {
 		t.Fatalf("GetTrackedCounts: wrong day Tracked count")
 	}
 }
+
+func TestGetOpenCounts(t *testing.T) {
+	responseJSON := `{
+		"Days": [
+		    {
+		      "Date": "2014-01-01",
+		      "Opens": 44,
+		      "Unique": 4
+		    },
+		    {
+		      "Date": "2014-01-02",
+		      "Opens": 46,
+		      "Unique": 6
+		    },
+		    {
+		      "Date": "2014-01-03",
+		      "Opens": 25,
+		      "Unique": 5
+		    },
+		    {
+		      "Date": "2014-01-04",
+		      "Opens": 25,
+		      "Unique": 5
+		    },
+		    {
+		      "Date": "2014-01-05",
+		      "Opens": 26,
+		      "Unique": 6
+		    }
+		  ],
+	  "Opens": 166,
+	  "Unique": 26
+	}`
+
+	tMux.HandleFunc(pat.Get("/stats/outbound/opens"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	res, err := client.GetOpenCounts(map[string]interface{}{
+		"fromdate": "2014-01-01",
+		"todate":   "2014-02-01",
+	})
+
+	if err != nil {
+		t.Fatalf("GetOpenCounts: %v", err.Error())
+	}
+
+	if res.Opens != 166 {
+		t.Fatalf("GetOpenCounts: wrong Opens: %v", res.Opens)
+	}
+
+	if res.Days[0].Opens != 44 {
+		t.Fatalf("GetOpenCounts: wrong day Opens count")
+	}
+}

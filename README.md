@@ -102,7 +102,7 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [x] `GET /stats/outbound/bounces`
     * [x] `GET /stats/outbound/spam`
     * [x] `GET /stats/outbound/tracked`
-    * [ ] Get email open counts
+    * [x] `GET /stats/outbound/opens`
     * [ ] Get email platform usage
     * [ ] Get email client usage
     * [ ] Get email read times
