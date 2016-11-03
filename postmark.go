@@ -25,16 +25,17 @@ type Client struct {
 	BaseURL string
 }
 
+// Options is an object to hold variable parameters to perform request.
 type Options struct {
-	// HTTP method to perform.
+	// Method is HTTP method type.
 	Method              string
-	// URI.
+	// Path is postfix for URI.
 	Path                string
-	// Body payload.
+	// Payload for the request.
 	Payload             interface{}
-	// Whether server token header has to be included.
+	// IncludeServerToken indicates server token header has to be included.
 	IncludeServerToken  bool
-	// Whether account token header has to be included
+	// IncludeAccountToken indicates whether account token header has to be included.
 	IncludeAccountToken bool
 }
 
