@@ -34,9 +34,9 @@ func (client *Client) GetDeliveryStats() (DeliveryStats, error) {
 	res := DeliveryStats{}
 	path := "deliverystats"
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      path,
+		TokenType: server_token,
 	}, &res)
 	return res, err
 }
@@ -98,9 +98,9 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 	path := fmt.Sprintf("bounces?%s", values.Encode())
 
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      path,
+		TokenType: server_token,
 	}, &res)
 	return res.Bounces, res.TotalCount, err
 }
@@ -113,9 +113,9 @@ func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	res := Bounce{}
 	path := fmt.Sprintf("bounces/%v", bounceID)
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      path,
+		TokenType: server_token,
 	}, &res)
 	return res, err
 }
@@ -132,9 +132,9 @@ func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 	res := dumpResponse{}
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      path,
+		TokenType: server_token,
 	}, &res)
 	return res.Body, err
 }
@@ -154,9 +154,9 @@ func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
 	res := activateBounceResponse{}
 	path := fmt.Sprintf("bounces/%v/activate", bounceID)
 	err := client.doRequest(Options{
-		Method:             "PUT",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "PUT",
+		Path:      path,
+		TokenType: server_token,
 	}, &res)
 	return res.Bounce, res.Message, err
 }
@@ -173,9 +173,9 @@ func (client *Client) GetBouncedTags() ([]string, error) {
 	var raw json.RawMessage
 	path := "bounces/tags"
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               path,
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      path,
+		TokenType: server_token,
 	}, &raw)
 
 	if err != nil {

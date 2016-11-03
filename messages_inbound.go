@@ -63,9 +63,9 @@ func (x InboundMessage) Time() (time.Time, error) {
 func (client *Client) GetInboundMessage(messageID string) (InboundMessage, error) {
 	res := InboundMessage{}
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/inbound/%s/details", messageID),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/inbound/%s/details", messageID),
+		TokenType: server_token,
 	}, &res)
 	return res, err
 }
@@ -93,9 +93,9 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 	}
 
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/inbound?%s", values.Encode()),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/inbound?%s", values.Encode()),
+		TokenType: server_token,
 	}, &res)
 
 	return res.Messages, res.TotalCount, err
@@ -108,9 +108,9 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 func (client *Client) BypassInboundMessage(messageID string) error {
 	res := APIError{}
 	err := client.doRequest(Options{
-		Method:             "PUT",
-		Path:               fmt.Sprintf("messages/inbound/%s/bypass", messageID),
-		IncludeServerToken: true,
+		Method:    "PUT",
+		Path:      fmt.Sprintf("messages/inbound/%s/bypass", messageID),
+		TokenType: server_token,
 	}, &res)
 
 	if res.ErrorCode != 0 {
@@ -127,9 +127,9 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 func (client *Client) RetryInboundMessage(messageID string) error {
 	res := APIError{}
 	err := client.doRequest(Options{
-		Method:             "PUT",
-		Path:               fmt.Sprintf("messages/inbound/%s/retry", messageID),
-		IncludeServerToken: true,
+		Method:    "PUT",
+		Path:      fmt.Sprintf("messages/inbound/%s/retry", messageID),
+		TokenType: server_token,
 	}, &res)
 
 	if res.ErrorCode != 0 {

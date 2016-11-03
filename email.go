@@ -70,10 +70,10 @@ type EmailResponse struct {
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	res := EmailResponse{}
 	err := client.doRequest(Options{
-		Method:             "POST",
-		Path:               "email",
-		Payload:            email,
-		IncludeServerToken: true,
+		Method:    "POST",
+		Path:      "email",
+		Payload:   email,
+		TokenType: server_token,
 	}, &res)
 
 	if res.ErrorCode != 0 {
@@ -89,10 +89,10 @@ func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
 	res := []EmailResponse{}
 	err := client.doRequest(Options{
-		Method:             "POST",
-		Path:               "email/batch",
-		Payload:            emails,
-		IncludeServerToken: true,
+		Method:    "POST",
+		Path:      "email/batch",
+		Payload:   emails,
+		TokenType: server_token,
 	}, &res)
 	return res, err
 }

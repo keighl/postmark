@@ -25,18 +25,21 @@ type Client struct {
 	BaseURL string
 }
 
+const (
+	server_token  = "server"
+	account_token = "account"
+)
+
 // Options is an object to hold variable parameters to perform request.
 type Options struct {
 	// Method is HTTP method type.
-	Method              string
+	Method string
 	// Path is postfix for URI.
-	Path                string
+	Path string
 	// Payload for the request.
-	Payload             interface{}
-	// IncludeServerToken indicates server token header has to be included.
-	IncludeServerToken  bool
-	// IncludeAccountToken indicates whether account token header has to be included.
-	IncludeAccountToken bool
+	Payload interface{}
+	// TokenType defines which token to use
+	TokenType string
 }
 
 // NewClient builds a new Client pointer using the provided tokens, a default HTTPClient, and a default API base URL
@@ -70,12 +73,12 @@ func (client *Client) doRequest(options Options, dst interface{}) error {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
 
-	if options.IncludeServerToken {
-		req.Header.Add("X-Postmark-Server-Token", client.ServerToken)
-	}
-
-	if options.IncludeAccountToken {
+	switch options.TokenType {
+	case account_token:
 		req.Header.Add("X-Postmark-Account-Token", client.AccountToken)
+
+	default:
+		req.Header.Add("X-Postmark-Server-Token", client.ServerToken)
 	}
 
 	res, err := client.HTTPClient.Do(req)

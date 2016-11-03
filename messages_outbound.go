@@ -66,9 +66,9 @@ type MessageEvent struct {
 func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, error) {
 	res := OutboundMessage{}
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/outbound/%s/details", messageID),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/%s/details", messageID),
+		TokenType: server_token,
 	}, &res)
 	return res, err
 }
@@ -80,9 +80,9 @@ func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, err
 func (client *Client) GetOutboundMessageDump(messageID string) (string, error) {
 	res := dumpResponse{}
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/outbound/%s/dump", messageID),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/%s/dump", messageID),
+		TokenType: server_token,
 	}, &res)
 	return res.Body, err
 }
@@ -111,9 +111,9 @@ func (client *Client) GetOutboundMessages(count int64, offset int64, options map
 	}
 
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/outbound?%s", values.Encode()),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound?%s", values.Encode()),
+		TokenType: server_token,
 	}, &res)
 	return res.Messages, res.TotalCount, err
 }
@@ -162,9 +162,9 @@ func (client *Client) GetOutboundMessagesOpens(count int64, offset int64, option
 	}
 
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/outbound/opens?%s", values.Encode()),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/opens?%s", values.Encode()),
+		TokenType: server_token,
 	}, &res)
 	return res.Opens, res.TotalCount, err
 }
@@ -182,9 +182,9 @@ func (client *Client) GetOutboundMessageOpens(messageID string, count int64, off
 	values.Add("offset", fmt.Sprintf("%d", offset))
 
 	err := client.doRequest(Options{
-		Method:             "GET",
-		Path:               fmt.Sprintf("messages/outbound/opens/%s?%s", messageID, values.Encode()),
-		IncludeServerToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/opens/%s?%s", messageID, values.Encode()),
+		TokenType: server_token,
 	}, &res)
 	return res.Opens, res.TotalCount, err
 }

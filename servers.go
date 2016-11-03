@@ -48,9 +48,9 @@ type Server struct {
 func (client *Client) GetServer(serverID string) (Server, error) {
 	res := Server{}
 	err := client.doRequest(Options{
-		Method:              "GET",
-		Path:                fmt.Sprintf("servers/%s", serverID),
-		IncludeAccountToken: true,
+		Method:    "GET",
+		Path:      fmt.Sprintf("servers/%s", serverID),
+		TokenType: account_token,
 	}, &res)
 	return res, err
 }
@@ -62,9 +62,9 @@ func (client *Client) GetServer(serverID string) (Server, error) {
 func (client *Client) EditServer(serverID string, server Server) (Server, error) {
 	res := Server{}
 	err := client.doRequest(Options{
-		Method:              "PUT",
-		Path:                fmt.Sprintf("servers/%s", serverID),
-		IncludeAccountToken: true,
+		Method:    "PUT",
+		Path:      fmt.Sprintf("servers/%s", serverID),
+		TokenType: account_token,
 	}, &res)
 	return res, err
 }
