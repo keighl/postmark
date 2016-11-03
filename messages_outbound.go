@@ -68,7 +68,6 @@ func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, err
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               fmt.Sprintf("messages/outbound/%s/details", messageID),
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res, err

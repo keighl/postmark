@@ -36,7 +36,6 @@ func (client *Client) GetDeliveryStats() (DeliveryStats, error) {
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res, err
@@ -101,7 +100,6 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res.Bounces, res.TotalCount, err
@@ -117,7 +115,6 @@ func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res, err
@@ -137,7 +134,6 @@ func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res.Body, err
@@ -160,7 +156,6 @@ func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
 	err := client.doRequest(Options{
 		Method:             "PUT",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res.Bounce, res.Message, err
@@ -180,7 +175,6 @@ func (client *Client) GetBouncedTags() ([]string, error) {
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               path,
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &raw)
 

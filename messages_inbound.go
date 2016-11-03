@@ -65,7 +65,6 @@ func (client *Client) GetInboundMessage(messageID string) (InboundMessage, error
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               fmt.Sprintf("messages/inbound/%s/details", messageID),
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 	return res, err
@@ -96,7 +95,6 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 	err := client.doRequest(Options{
 		Method:             "GET",
 		Path:               fmt.Sprintf("messages/inbound?%s", values.Encode()),
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 
@@ -112,7 +110,6 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 	err := client.doRequest(Options{
 		Method:             "PUT",
 		Path:               fmt.Sprintf("messages/inbound/%s/bypass", messageID),
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 
@@ -132,7 +129,6 @@ func (client *Client) RetryInboundMessage(messageID string) error {
 	err := client.doRequest(Options{
 		Method:             "PUT",
 		Path:               fmt.Sprintf("messages/inbound/%s/retry", messageID),
-		Payload:            nil,
 		IncludeServerToken: true,
 	}, &res)
 
