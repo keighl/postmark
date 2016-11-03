@@ -31,7 +31,7 @@ const (
 )
 
 // Options is an object to hold variable parameters to perform request.
-type Options struct {
+type parameters struct {
 	// Method is HTTP method type.
 	Method string
 	// Path is postfix for URI.
@@ -54,16 +54,16 @@ func NewClient(serverToken string, accountToken string) *Client {
 	}
 }
 
-func (client *Client) doRequest(options Options, dst interface{}) error {
-	url := fmt.Sprintf("%s/%s", client.BaseURL, options.Path)
+func (client *Client) doRequest(opts parameters, dst interface{}) error {
+	url := fmt.Sprintf("%s/%s", client.BaseURL, opts.Path)
 
-	req, err := http.NewRequest(options.Method, url, nil)
+	req, err := http.NewRequest(opts.Method, url, nil)
 	if err != nil {
 		return err
 	}
 
-	if options.Payload != nil {
-		payloadData, err := json.Marshal(options.Payload)
+	if opts.Payload != nil {
+		payloadData, err := json.Marshal(opts.Payload)
 		if err != nil {
 			return err
 		}
@@ -73,7 +73,7 @@ func (client *Client) doRequest(options Options, dst interface{}) error {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
 
-	switch options.TokenType {
+	switch opts.TokenType {
 	case account_token:
 		req.Header.Add("X-Postmark-Account-Token", client.AccountToken)
 

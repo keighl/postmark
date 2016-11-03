@@ -65,7 +65,7 @@ type MessageEvent struct {
 // GetOutboundMessage fetches a specific outbound message via serverID
 func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, error) {
 	res := OutboundMessage{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/outbound/%s/details", messageID),
 		TokenType: server_token,
@@ -79,7 +79,7 @@ func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, err
 // GetOutboundMessageDump fetches the raw source of message. If no dump is available this will return an empty string.
 func (client *Client) GetOutboundMessageDump(messageID string) (string, error) {
 	res := dumpResponse{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/outbound/%s/dump", messageID),
 		TokenType: server_token,
@@ -110,7 +110,7 @@ func (client *Client) GetOutboundMessages(count int64, offset int64, options map
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/outbound?%s", values.Encode()),
 		TokenType: server_token,
@@ -161,7 +161,7 @@ func (client *Client) GetOutboundMessagesOpens(count int64, offset int64, option
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/outbound/opens?%s", values.Encode()),
 		TokenType: server_token,
@@ -181,7 +181,7 @@ func (client *Client) GetOutboundMessageOpens(messageID string, count int64, off
 	values.Add("count", fmt.Sprintf("%d", count))
 	values.Add("offset", fmt.Sprintf("%d", offset))
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/outbound/opens/%s?%s", messageID, values.Encode()),
 		TokenType: server_token,

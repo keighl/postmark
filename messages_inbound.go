@@ -62,7 +62,7 @@ func (x InboundMessage) Time() (time.Time, error) {
 // GetInboundMessage fetches a specific inbound message via serverID
 func (client *Client) GetInboundMessage(messageID string) (InboundMessage, error) {
 	res := InboundMessage{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/inbound/%s/details", messageID),
 		TokenType: server_token,
@@ -92,7 +92,7 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("messages/inbound?%s", values.Encode()),
 		TokenType: server_token,
@@ -107,7 +107,7 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 // BypassInboundMessage - Bypass rules for a blocked inbound message
 func (client *Client) BypassInboundMessage(messageID string) error {
 	res := APIError{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "PUT",
 		Path:      fmt.Sprintf("messages/inbound/%s/bypass", messageID),
 		TokenType: server_token,
@@ -126,7 +126,7 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 // RetryInboundMessage - Retry a failed inbound message for processing
 func (client *Client) RetryInboundMessage(messageID string) error {
 	res := APIError{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "PUT",
 		Path:      fmt.Sprintf("messages/inbound/%s/retry", messageID),
 		TokenType: server_token,

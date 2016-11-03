@@ -39,7 +39,7 @@ type TemplateInfo struct {
 // GetTemplate fetches a specific template via TemplateID
 func (client *Client) GetTemplate(templateID string) (Template, error) {
 	res := Template{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("templates/%s", templateID),
 		TokenType: server_token,
@@ -66,7 +66,7 @@ func (client *Client) GetTemplates(count int64, offset int64) ([]TemplateInfo, i
 	values.Add("count", fmt.Sprintf("%d", count))
 	values.Add("offset", fmt.Sprintf("%d", offset))
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("templates?%s", values.Encode()),
 		TokenType: server_token,
@@ -80,7 +80,7 @@ func (client *Client) GetTemplates(count int64, offset int64) ([]TemplateInfo, i
 // CreateTemplate saves a new template to the server
 func (client *Client) CreateTemplate(template Template) (TemplateInfo, error) {
 	res := TemplateInfo{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "POST",
 		Path:      "templates",
 		Payload:   template,
@@ -95,7 +95,7 @@ func (client *Client) CreateTemplate(template Template) (TemplateInfo, error) {
 // EditTemplate updates details for a specific template with templateID
 func (client *Client) EditTemplate(templateID string, template Template) (TemplateInfo, error) {
 	res := TemplateInfo{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "PUT",
 		Path:      fmt.Sprintf("templates/%s", templateID),
 		Payload:   template,
@@ -110,7 +110,7 @@ func (client *Client) EditTemplate(templateID string, template Template) (Templa
 // DeleteTemplate removes a template (with templateID) from the server
 func (client *Client) DeleteTemplate(templateID string) error {
 	res := APIError{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "DELETE",
 		Path:      fmt.Sprintf("templates/%s", templateID),
 		TokenType: server_token,
@@ -157,7 +157,7 @@ type TemplatedEmail struct {
 // SendTemplatedEmail sends an email using a template (TemplateId)
 func (client *Client) SendTemplatedEmail(email TemplatedEmail) (EmailResponse, error) {
 	res := EmailResponse{}
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "POST",
 		Path:      "email/withTemplate",
 		Payload:   email,

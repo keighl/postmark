@@ -46,7 +46,7 @@ func (client *Client) GetOutboundStats(options map[string]interface{}) (Outbound
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound?%s", values.Encode()),
 		TokenType: server_token,
@@ -82,7 +82,7 @@ func (client *Client) GetSentCounts(options map[string]interface{}) (SendCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound/sends?%s", values.Encode()),
 		TokenType: server_token,
@@ -130,7 +130,7 @@ func (client *Client) GetBounceCounts(options map[string]interface{}) (BounceCou
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound/bounces?%s", values.Encode()),
 		TokenType: server_token,
@@ -167,7 +167,7 @@ func (client *Client) GetSpamCounts(options map[string]interface{}) (SpamCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound/spam?%s", values.Encode()),
 		TokenType: server_token,
@@ -203,7 +203,7 @@ func (client *Client) GetTrackedCounts(options map[string]interface{}) (TrackedC
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound/tracked?%s", values.Encode()),
 		TokenType: server_token,
@@ -243,7 +243,7 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("stats/outbound/opens?%s", values.Encode()),
 		TokenType: server_token,

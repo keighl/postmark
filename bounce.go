@@ -33,7 +33,7 @@ type DeliveryStats struct {
 func (client *Client) GetDeliveryStats() (DeliveryStats, error) {
 	res := DeliveryStats{}
 	path := "deliverystats"
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -97,7 +97,7 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 
 	path := fmt.Sprintf("bounces?%s", values.Encode())
 
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -112,7 +112,7 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	res := Bounce{}
 	path := fmt.Sprintf("bounces/%v", bounceID)
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -131,7 +131,7 @@ type dumpResponse struct {
 func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 	res := dumpResponse{}
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -153,7 +153,7 @@ type activateBounceResponse struct {
 func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
 	res := activateBounceResponse{}
 	path := fmt.Sprintf("bounces/%v/activate", bounceID)
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "PUT",
 		Path:      path,
 		TokenType: server_token,
@@ -172,7 +172,7 @@ type bouncedTagsResponse struct {
 func (client *Client) GetBouncedTags() ([]string, error) {
 	var raw json.RawMessage
 	path := "bounces/tags"
-	err := client.doRequest(Options{
+	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
