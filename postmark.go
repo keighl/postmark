@@ -25,6 +25,19 @@ type Client struct {
 	BaseURL string
 }
 
+type Options struct {
+	// HTTP method to perform.
+	Method              string
+	// URI.
+	Path                string
+	// Body payload.
+	Payload             interface{}
+	// Whether server token header has to be included.
+	IncludeServerToken  bool
+	// Whether account token header has to be included
+	IncludeAccountToken bool
+}
+
 // NewClient builds a new Client pointer using the provided tokens, a default HTTPClient, and a default API base URL
 // Accepts `Server Token`, and `Account Token` as arguments
 // http://developer.postmarkapp.com/developer-api-overview.html#authentication
@@ -37,16 +50,16 @@ func NewClient(serverToken string, accountToken string) *Client {
 	}
 }
 
-func (client *Client) doRequest(method string, path string, payload interface{}, dst interface{}) error {
-	url := fmt.Sprintf("%s/%s", client.BaseURL, path)
+func (client *Client) doRequest(options Options, dst interface{}) error {
+	url := fmt.Sprintf("%s/%s", client.BaseURL, options.Path)
 
-	req, err := http.NewRequest(method, url, nil)
+	req, err := http.NewRequest(options.Method, url, nil)
 	if err != nil {
 		return err
 	}
 
-	if payload != nil {
-		payloadData, err := json.Marshal(payload)
+	if options.Payload != nil {
+		payloadData, err := json.Marshal(options.Payload)
 		if err != nil {
 			return err
 		}
@@ -55,8 +68,14 @@ func (client *Client) doRequest(method string, path string, payload interface{},
 
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("X-Postmark-Server-Token", client.ServerToken)
-	req.Header.Add("X-Postmark-Account-Token", client.AccountToken)
+
+	if options.IncludeServerToken {
+		req.Header.Add("X-Postmark-Server-Token", client.ServerToken)
+	}
+
+	if options.IncludeAccountToken {
+		req.Header.Add("X-Postmark-Account-Token", client.AccountToken)
+	}
 
 	res, err := client.HTTPClient.Do(req)
 	if err != nil {

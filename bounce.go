@@ -33,7 +33,12 @@ type DeliveryStats struct {
 func (client *Client) GetDeliveryStats() (DeliveryStats, error) {
 	res := DeliveryStats{}
 	path := "deliverystats"
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(Options{
+		Method:             "GET",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &res)
 	return res, err
 }
 
@@ -62,7 +67,7 @@ type Bounce struct {
 	Email string
 	// BouncedAt: Timestamp of bounce
 	BouncedAt time.Time
-	// DumpAvailable: Specifies whether or not you can get a raw dump from this bounce. Postmark doesn’t store bounce dumps older than 30 days.
+	// DumpAvailable: Specifies whether or not you can get a raw dump from this bounce. Postmark does not store bounce dumps older than 30 days.
 	DumpAvailable bool
 	// Inactive: Specifies if the bounce caused Postmark to deactivate this email.
 	Inactive bool
@@ -93,7 +98,12 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 
 	path := fmt.Sprintf("bounces?%s", values.Encode())
 
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(Options{
+		Method:             "GET",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &res)
 	return res.Bounces, res.TotalCount, err
 }
 
@@ -104,7 +114,12 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
 	res := Bounce{}
 	path := fmt.Sprintf("bounces/%v", bounceID)
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(Options{
+		Method:             "GET",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &res)
 	return res, err
 }
 
@@ -119,7 +134,12 @@ type dumpResponse struct {
 func (client *Client) GetBounceDump(bounceID int64) (string, error) {
 	res := dumpResponse{}
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(Options{
+		Method:             "GET",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &res)
 	return res.Body, err
 }
 
@@ -137,7 +157,12 @@ type activateBounceResponse struct {
 func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
 	res := activateBounceResponse{}
 	path := fmt.Sprintf("bounces/%v/activate", bounceID)
-	err := client.doRequest("PUT", path, nil, &res)
+	err := client.doRequest(Options{
+		Method:             "PUT",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &res)
 	return res.Bounce, res.Message, err
 }
 
@@ -151,8 +176,13 @@ type bouncedTagsResponse struct {
 // GetBouncedTags retrieves a list of tags that have generated bounced emails
 func (client *Client) GetBouncedTags() ([]string, error) {
 	var raw json.RawMessage
-	path := fmt.Sprintf("bounces/tags")
-	err := client.doRequest("GET", path, nil, &raw)
+	path := "bounces/tags"
+	err := client.doRequest(Options{
+		Method:             "GET",
+		Path:               path,
+		Payload:            nil,
+		IncludeServerToken: true,
+	}, &raw)
 
 	if err != nil {
 		return []string{}, err
