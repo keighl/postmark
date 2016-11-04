@@ -69,7 +69,12 @@ type EmailResponse struct {
 // SendEmail sends, well, an email.
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	res := EmailResponse{}
-	err := client.doRequest("POST", "email", email, &res)
+	err := client.doRequest(parameters{
+		Method:    "POST",
+		Path:      "email",
+		Payload:   email,
+		TokenType: server_token,
+	}, &res)
 
 	if res.ErrorCode != 0 {
 		return res, fmt.Errorf(`%v %s`, res.ErrorCode, res.Message)
@@ -83,6 +88,11 @@ func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 // range over the responses and sniff for errors
 func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
 	res := []EmailResponse{}
-	err := client.doRequest("POST", "email/batch", emails, &res)
+	err := client.doRequest(parameters{
+		Method:    "POST",
+		Path:      "email/batch",
+		Payload:   emails,
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }

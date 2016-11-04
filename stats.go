@@ -46,8 +46,11 @@ func (client *Client) GetOutboundStats(options map[string]interface{}) (Outbound
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -66,7 +69,7 @@ type SendDay struct {
 type SendCounts struct {
 	// Days - List of objects that each represent sent counts by date.
 	Days []SendDay
-	// Sent - Indiciates the number of total sent emails returned.
+	// Sent - Indicates the number of total sent emails returned.
 	Sent int64
 }
 
@@ -79,8 +82,11 @@ func (client *Client) GetSentCounts(options map[string]interface{}) (SendCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound/sends?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/sends?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -124,23 +130,26 @@ func (client *Client) GetBounceCounts(options map[string]interface{}) (BounceCou
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound/bounces?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/bounces?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// SpamDay - spam compaints for a specific day
+// SpamDay - spam complaints for a specific day
 type SpamDay struct {
 	// Date - prettttay self explanatory
 	Date string
-	// SpamComplaint - number of spam compaints received
+	// SpamComplaint - number of spam complaints received
 	SpamComplaint int64
 }
 
-// SpamCounts - spam compaints for a period
+// SpamCounts - spam complaints for a period
 type SpamCounts struct {
 	// Days - List of objects that each represent spam complaint counts by date.
 	Days []SpamDay
@@ -149,7 +158,7 @@ type SpamCounts struct {
 }
 
 // GetSpamCounts - Gets a total count of recipients who have marked your email as spam.
-// Days that didn’t produce statistics won’t appear in the JSON response.
+// Days that did not produce statistics won’t appear in the JSON response.
 // Available options: http://developer.postmarkapp.com/developer-api-stats.html#spam-complaints
 func (client *Client) GetSpamCounts(options map[string]interface{}) (SpamCounts, error) {
 	res := SpamCounts{}
@@ -158,8 +167,11 @@ func (client *Client) GetSpamCounts(options map[string]interface{}) (SpamCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound/spam?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/spam?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -191,8 +203,11 @@ func (client *Client) GetTrackedCounts(options map[string]interface{}) (TrackedC
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound/tracked?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/tracked?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -228,7 +243,10 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("stats/outbound/opens?%s", values.Encode())
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/opens?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }

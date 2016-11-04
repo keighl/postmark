@@ -62,8 +62,11 @@ func (x InboundMessage) Time() (time.Time, error) {
 // GetInboundMessage fetches a specific inbound message via serverID
 func (client *Client) GetInboundMessage(messageID string) (InboundMessage, error) {
 	res := InboundMessage{}
-	path := fmt.Sprintf("messages/inbound/%s/details", messageID)
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/inbound/%s/details", messageID),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -89,9 +92,12 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("messages/inbound?%s", values.Encode())
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/inbound?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 
-	err := client.doRequest("GET", path, nil, &res)
 	return res.Messages, res.TotalCount, err
 }
 
@@ -101,8 +107,11 @@ func (client *Client) GetInboundMessages(count int64, offset int64, options map[
 // BypassInboundMessage - Bypass rules for a blocked inbound message
 func (client *Client) BypassInboundMessage(messageID string) error {
 	res := APIError{}
-	path := fmt.Sprintf("messages/inbound/%s/bypass", messageID)
-	err := client.doRequest("PUT", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "PUT",
+		Path:      fmt.Sprintf("messages/inbound/%s/bypass", messageID),
+		TokenType: server_token,
+	}, &res)
 
 	if res.ErrorCode != 0 {
 		return res
@@ -117,8 +126,11 @@ func (client *Client) BypassInboundMessage(messageID string) error {
 // RetryInboundMessage - Retry a failed inbound message for processing
 func (client *Client) RetryInboundMessage(messageID string) error {
 	res := APIError{}
-	path := fmt.Sprintf("messages/inbound/%s/retry", messageID)
-	err := client.doRequest("PUT", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "PUT",
+		Path:      fmt.Sprintf("messages/inbound/%s/retry", messageID),
+		TokenType: server_token,
+	}, &res)
 
 	if res.ErrorCode != 0 {
 		return res

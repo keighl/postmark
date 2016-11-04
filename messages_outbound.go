@@ -40,7 +40,7 @@ type OutboundMessage struct {
 	MessageEvents []MessageEvent
 }
 
-// Recipient represents an indiviual who received a message
+// Recipient represents an individual who received a message
 type Recipient struct {
 	// Name is the recipient's name
 	Name string
@@ -65,8 +65,11 @@ type MessageEvent struct {
 // GetOutboundMessage fetches a specific outbound message via serverID
 func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, error) {
 	res := OutboundMessage{}
-	path := fmt.Sprintf("messages/outbound/%s/details", messageID)
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/%s/details", messageID),
+		TokenType: server_token,
+	}, &res)
 	return res, err
 }
 
@@ -76,8 +79,11 @@ func (client *Client) GetOutboundMessage(messageID string) (OutboundMessage, err
 // GetOutboundMessageDump fetches the raw source of message. If no dump is available this will return an empty string.
 func (client *Client) GetOutboundMessageDump(messageID string) (string, error) {
 	res := dumpResponse{}
-	path := fmt.Sprintf("messages/outbound/%s/dump", messageID)
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/%s/dump", messageID),
+		TokenType: server_token,
+	}, &res)
 	return res.Body, err
 }
 
@@ -104,9 +110,11 @@ func (client *Client) GetOutboundMessages(count int64, offset int64, options map
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("messages/outbound?%s", values.Encode())
-
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res.Messages, res.TotalCount, err
 }
 
@@ -117,7 +125,7 @@ func (client *Client) GetOutboundMessages(count int64, offset int64, options map
 type Open struct {
 	// FirstOpen - Indicates if the open was first open of message with MessageID and by Recipient. Any subsequent opens of the same message by the same Recipient will show false in this field. Postmark only saves first opens to its store, while all opens are available via Open web hooks.
 	FirstOpen bool
-	// UserAgent - Full user-agentheader passed by the client software to Postmark. Postmark will fill in the Platform Client and OS fields based on this.
+	// UserAgent - Full user-agent header passed by the client software to Postmark. Postmark will fill in the Platform Client and OS fields based on this.
 	UserAgent string
 	// MessageID - Unique ID of the message.
 	MessageID string
@@ -153,9 +161,11 @@ func (client *Client) GetOutboundMessagesOpens(count int64, offset int64, option
 		values.Add(k, fmt.Sprintf("%v", v))
 	}
 
-	path := fmt.Sprintf("messages/outbound/opens?%s", values.Encode())
-
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/opens?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res.Opens, res.TotalCount, err
 }
 
@@ -171,8 +181,10 @@ func (client *Client) GetOutboundMessageOpens(messageID string, count int64, off
 	values.Add("count", fmt.Sprintf("%d", count))
 	values.Add("offset", fmt.Sprintf("%d", offset))
 
-	path := fmt.Sprintf("messages/outbound/opens/%s?%s", messageID, values.Encode())
-
-	err := client.doRequest("GET", path, nil, &res)
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("messages/outbound/opens/%s?%s", messageID, values.Encode()),
+		TokenType: server_token,
+	}, &res)
 	return res.Opens, res.TotalCount, err
 }
