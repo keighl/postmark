@@ -52,6 +52,8 @@ type Recipient struct {
 type MessageEvent struct {
 	// Recipient is who received the message (just email address)
 	Recipient string
+	// ReceivedAt is the event timestamp
+	ReceivedAt time.Time
 	// Type of event (Delivered, Opened, or Bounced)
 	Type string
 	// Details contain information regarding the event
