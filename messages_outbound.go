@@ -33,7 +33,7 @@ type OutboundMessage struct {
 	// Subject - Email subject
 	Subject string
 	// Attachments - List of objects that each represent an attachment.
-	Attachments []Attachment
+	Attachments []string
 	// Status - Status of message in your Postmark activity.
 	Status string
 	// MessageEvents - List of summaries (MessageEvent) of things that have happened to this message. They can be Delivered, Opened, or Bounced as shown in the type field.
