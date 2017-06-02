@@ -24,7 +24,7 @@ email := postmark.Email{
 	To: "tito@example.com",
 	Subject: "Reset your password",
 	HtmlBody: "...",
-    TextBody: "..."
+    TextBody: "...",
 	Tag: "pw-reset",
 	TrackOpens: true,
 }
