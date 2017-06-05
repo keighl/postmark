@@ -29,7 +29,7 @@ func TestGetOutboundMessage(t *testing.T) {
 	  "ReceivedAt": "2014-02-14T11:12:54.8054242-05:00",
 	  "From": "\"Joe\" <joe@domain.com>",
 	  "Subject": "Parts Order #5454",
-	  "Attachments": [],
+	  "Attachments": ["test-file.txt"],
 	  "Status": "Sent",
 	  "MessageEvents": [
 		{
