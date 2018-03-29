@@ -165,3 +165,18 @@ func (client *Client) SendTemplatedEmail(email TemplatedEmail) (EmailResponse, e
 	}, &res)
 	return res, err
 }
+
+// SendTemplatedEmail sends batch email using a template (TemplateId)
+func (client *Client) SendTemplatedEmailBatch(emails []TemplatedEmail) ([]EmailResponse, error) {
+	res := []EmailResponse{}
+	var formatEmails map[string]interface{} = map[string]interface{}{
+		"Messages": emails,
+	}
+	err := client.doRequest(parameters{
+		Method:    "POST",
+		Path:      "email/batchWithTemplates",
+		Payload:   formatEmails,
+		TokenType: server_token,
+	}, &res)
+	return res, err
+}
