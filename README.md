@@ -59,6 +59,7 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [x] `POST /email`
     * [x] `POST /email/batch`
     * [x] `POST /email/withTemplate`
+    * [x] `POST /email/batchWithTemplates`
 * [x] Bounces
     * [x] `GET /deliverystats`
     * [x] `GET /bounces`

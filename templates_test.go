@@ -206,3 +206,36 @@ func TestSendTemplatedEmail(t *testing.T) {
 		t.Fatalf("SendTemplatedEmail: incorrect message ID")
 	}
 }
+
+func TestSendTemplatedBatch(t *testing.T) {
+	responseJSON := `[
+	  {
+		"To": "receiver@example.com",
+		"SubmittedAt": "2014-02-17T07:25:01.4178645-05:00",
+		"MessageID": "0a129aee-e1cd-480d-b08d-4f48548ff48d",
+		"ErrorCode": 0,
+		"Message": "OK"
+	},{
+		"To": "receiver@example.com",
+		"SubmittedAt": "2014-02-17T07:25:01.4178645-05:00",
+		"MessageID": "0a129aee-e1cd-480d-b08d-4f48548ff48d",
+		"ErrorCode": 0,
+		"Message": "OK"
+	}
+	]`
+
+	tMux.HandleFunc(pat.Post("/email/batchWithTemplates"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	res, err := client.SendEmailBatch([]Email{testEmail, testEmail})
+
+	if err != nil {
+		t.Fatalf("SendTemplatedBatch: %s", err.Error())
+	}
+
+	if len(res) != 2 {
+		t.Fatalf("SendTemplatedBatch: wrong response array size!")
+	}
+
+}
