@@ -228,7 +228,7 @@ func TestSendTemplatedBatch(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
-	res, err := client.SendEmailBatch([]Email{testEmail, testEmail})
+	res, err := client.SendTemplatedEmailBatch([]TemplatedEmail{testTemplatedEmail, testTemplatedEmail})
 
 	if err != nil {
 		t.Fatalf("SendTemplatedBatch: %s", err.Error())
