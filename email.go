@@ -49,6 +49,8 @@ type Attachment struct {
 	Content string
 	// ContentType: attachment MIME type
 	ContentType string
+	// ContentId: populate for inlining images with the images cid
+	ContentID string `json:",omitempty"`
 }
 
 // EmailResponse holds info in response to a send/send-batch request
