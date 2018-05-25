@@ -250,3 +250,37 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 	}, &res)
 	return res, err
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+type EmailPlatformUsage struct {
+	Days    []UsageDay
+	Desktop int64
+	Mobile  int64
+	Unknown int64
+	WebMail int64
+}
+
+type UsageDay struct {
+	Date    string
+	Desktop int64
+	Mobile  int64
+	Unknown int64
+	WebMail int64
+}
+
+func (client *Client) GetEmailPlatformUsage(options map[string]interface{}) (EmailPlatformUsage, error) {
+	res := EmailPlatformUsage{}
+	values := &url.Values{}
+	for k, v := range options {
+		values.Add(k, fmt.Sprintf("%v", v))
+	}
+
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/opens?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
+	return res, err
+}
