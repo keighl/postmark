@@ -148,6 +148,69 @@ func TestDeleteTemplate(t *testing.T) {
 	}
 }
 
+func TestValidateTemplate(t *testing.T) {
+	responseJSON := `{
+		{
+			"AllContentIsValid": true,
+			"HtmlBody": {
+			  "ContentIsValid": true,
+			  "ValidationErrors": [],
+			  "RenderedContent": "address_Value name_Value "
+			},
+			"TextBody": {
+			  "ContentIsValid": true,
+			  "ValidationErrors": [{
+				  "Message" : "The syntax for this template is invalid.",
+				  "Line" : 1,
+				  "CharacterPosition" : 1
+			  }],
+			  "RenderedContent": "phone_Value name_Value "
+			},
+			"Subject": {
+			  "ContentIsValid": true,
+			  "ValidationErrors": [],
+			  "RenderedContent": "name_Value subjectHeadline_Value"
+			},
+			"SuggestedTemplateModel": {
+			  "userName": "bobby joe",
+			  "company": {
+				"address": "address_Value",
+				"phone": "phone_Value",
+				"name": "name_Value"
+			  },
+			  "person": [
+				{
+				  "name": "name_Value"
+				}
+			  ],
+			  "subjectHeadline": "subjectHeadline_Value"
+			}
+		  }
+	}`
+
+	tMux.HandleFunc(pat.Delete("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	res, err := client.ValidateTemplate(ValidateTemplateBody{
+		Subject:  "{{#company}}{{name}}{{/company}} {{subjectHeadline}}",
+		TextBody: "{{#company}}{{address}}{{/company}}{{#each person}} {{name}} {{/each}}",
+		HTMLBody: "{{#company}}{{phone}}{{/company}}{{#each person}} {{name}} {{/each}}",
+		TestRenderModel: map[string]interface{}{
+			"userName": "bobby joe",
+		},
+		InlineCSSForHTMLTestRender: false,
+	})
+
+	if err != nil {
+		t.Fatalf("ValidateTemplate: %s", err.Error())
+	}
+
+	if !res.AllContentIsValid {
+		t.Fatalf("ValidateTemplate: AllContentIsValid should be true")
+	}
+}
+
 var testTemplatedEmail = TemplatedEmail{
 	TemplateId: 1234,
 	TemplateModel: map[string]interface{}{
