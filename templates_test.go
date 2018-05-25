@@ -188,7 +188,7 @@ func TestValidateTemplate(t *testing.T) {
 		  }
 	}`
 
-	tMux.HandleFunc(pat.Delete("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
+	tMux.HandleFunc(pat.Post("/templates/validate"), func(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(responseJSON))
 	})
 
