@@ -5,6 +5,7 @@ import (
 	"net/url"
 )
 
+// SenderSignature contains the details of the signature of the senders
 type SenderSignature struct {
 	Domain              string
 	EmailAddress        string
@@ -14,11 +15,13 @@ type SenderSignature struct {
 	ID                  int64
 }
 
+// SenderSignaturesList is just a list of SenderSignatures as they are in the response
 type SenderSignaturesList struct {
 	TotalCount       int
 	SenderSignatures []SenderSignature
 }
 
+// ListSenderSignatures gets a list of sender signatures, limited by count and paged by offset
 func (client *Client) ListSenderSignatures(count, offset int64) (SenderSignaturesList, error) {
 	res := SenderSignaturesList{}
 
