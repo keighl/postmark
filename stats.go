@@ -254,10 +254,10 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// EmailPlatformUsage contains day-to-day usages, along with totals of email usages by platform
-type EmailPlatformUsage struct {
+// PlatformCounts contains day-to-day usages, along with totals of email usages by platform
+type PlatformCounts struct {
 	// Days - List of objects that each represent email platform usages by date
-	Days []UsageDay
+	Days []PlatformDay
 	// Desktop - The total number of email platform usages by Desktop
 	Desktop int64
 
@@ -271,8 +271,8 @@ type EmailPlatformUsage struct {
 	WebMail int64
 }
 
-// UsageDay contains the totals of email usages by platform for a specific date
-type UsageDay struct {
+// PlatformDay contains the totals of email usages by platform for a specific date
+type PlatformDay struct {
 	// Date - the date in question
 	Date string
 
@@ -289,9 +289,9 @@ type UsageDay struct {
 	WebMail int64
 }
 
-// GetEmailPlatformUsage gets the email platform usage
-func (client *Client) GetEmailPlatformUsage(options map[string]interface{}) (EmailPlatformUsage, error) {
-	res := EmailPlatformUsage{}
+// GetPlatformCounts gets the email platform usage
+func (client *Client) GetPlatformCounts(options map[string]interface{}) (PlatformCounts, error) {
+	res := PlatformCounts{}
 	values := &url.Values{}
 	for k, v := range options {
 		values.Add(k, fmt.Sprintf("%v", v))
@@ -299,7 +299,7 @@ func (client *Client) GetEmailPlatformUsage(options map[string]interface{}) (Ema
 
 	err := client.doRequest(parameters{
 		Method:    "GET",
-		Path:      fmt.Sprintf("stats/outbound/opens?%s", values.Encode()),
+		Path:      fmt.Sprintf("stats/outbound/platform?%s", values.Encode()),
 		TokenType: server_token,
 	}, &res)
 	return res, err
