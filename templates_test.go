@@ -195,8 +195,8 @@ func TestValidateTemplate(t *testing.T) {
 	res, err := client.ValidateTemplate(ValidateTemplateBody{
 		Subject:  "{{#company}}{{name}}{{/company}} {{subjectHeadline}}",
 		TextBody: "{{#company}}{{address}}{{/company}}{{#each person}} {{name}} {{/each}}",
-		HtmlBody: "{{#company}}{{phone}}{{/company}}{{#each person}} {{name}} {{/each}}",
-		TestRenderModel: map[string]string{
+		HTMLBody: "{{#company}}{{phone}}{{/company}}{{#each person}} {{name}} {{/each}}",
+		TestRenderModel: map[string]interface{}{
 			"userName": "bobby joe",
 		},
 		InlineCSSForHTMLTestRender: false,
