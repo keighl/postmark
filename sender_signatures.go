@@ -15,6 +15,9 @@ type SenderSignature struct {
 	ID                  int64
 }
 
+///////////////////////////////////////
+///////////////////////////////////////
+
 // SenderSignaturesList is just a list of SenderSignatures as they are in the response
 type SenderSignaturesList struct {
 	TotalCount       int
