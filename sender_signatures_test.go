@@ -7,7 +7,7 @@ import (
 	"goji.io/pat"
 )
 
-func TestListSenderSignatures(t *testing.T) {
+func TestGetSenderSignatures(t *testing.T) {
 	responseJSON := `{
 	"TotalCount": 2,
 	"SenderSignatures": [
@@ -34,12 +34,12 @@ func TestListSenderSignatures(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
-	res, err := client.ListSenderSignatures(50, 0)
+	res, err := client.GetSenderSignatures(50, 0)
 	if err != nil {
-		t.Fatalf("ListSenderSignatures: %s", err.Error())
+		t.Fatalf("GetSenderSignatures: %s", err.Error())
 	}
 
 	if res.TotalCount != 2 {
-		t.Fatalf("ListSenderSignatures: wrong name!")
+		t.Fatalf("GetSenderSignatures: wrong TotalCount!")
 	}
 }

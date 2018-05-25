@@ -21,8 +21,8 @@ type SenderSignaturesList struct {
 	SenderSignatures []SenderSignature
 }
 
-// ListSenderSignatures gets a list of sender signatures, limited by count and paged by offset
-func (client *Client) ListSenderSignatures(count, offset int64) (SenderSignaturesList, error) {
+// GetSenderSignatures gets a list of sender signatures, limited by count and paged by offset
+func (client *Client) GetSenderSignatures(count, offset int64) (SenderSignaturesList, error) {
 	res := SenderSignaturesList{}
 
 	values := &url.Values{}
