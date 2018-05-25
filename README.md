@@ -19,7 +19,7 @@ import (
 
 client := postmark.NewClient("[SERVER-TOKEN]", "[ACCOUNT-TOKEN]")
 
-email := postmark.Email{    
+email := postmark.Email{
 	From: "no-reply@example.com",
 	To: "tito@example.com",
 	Subject: "Reset your password",
@@ -88,7 +88,7 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [x] `PUT /messages/inbound/:id/bypass`
     * [x] `PUT /messages/inbound/:id/retry`
 * [ ] Sender signatures
-    * [ ] List sender signatures
+    * [x] `GET /senders`
     * [ ] Get a sender signature’s details
     * [ ] Create a signature
     * [ ] Edit a signature
@@ -116,4 +116,4 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [ ] Inbound rules triggers
         * [ ] Create a trigger for inbound rule
         * [ ] Delete a single trigger
-        * [ ] List triggers    
+        * [ ] List triggers
