@@ -123,6 +123,45 @@ func (client *Client) DeleteTemplate(templateID string) error {
 	return err
 }
 
+type ValidateTemplateBody struct {
+	Subject                    string
+	TextBody                   string
+	HTMLBody                   string `json:"HtmlBody"`
+	TestRenderModel            map[string]interface{}
+	InlineCSSForHTMLTestRender bool `json:"InlineCssForHtmlTestRender"`
+}
+
+type ValidateTemplateResponse struct {
+	AllContentIsValid      bool
+	HTMLBody               Validation `json:"HtmlBody"`
+	TextBody               Validation
+	Subject                Validation
+	SuggestedTemplateModel map[string]interface{}
+}
+
+type Validation struct {
+	ContentIsValid   bool
+	ValidationErrors []ValidationError
+	RenderedContent  string
+}
+
+type ValidationError struct {
+	Message           string
+	Line              int
+	CharacterPosition int
+}
+
+func (client *Client) ValidateTemplate(validateTemplateBody ValidateTemplateBody) (ValidateTemplateResponse, error) {
+	res := ValidateTemplateResponse{}
+	err := client.doRequest(parameters{
+		Method:    "POST",
+		Path:      "templates/validate",
+		Payload:   validateTemplateBody,
+		TokenType: server_token,
+	}, &res)
+	return res, err
+}
+
 ///////////////////////////////////////
 ///////////////////////////////////////
 
