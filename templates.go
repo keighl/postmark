@@ -123,6 +123,10 @@ func (client *Client) DeleteTemplate(templateID string) error {
 	return err
 }
 
+///////////////////////////////////////
+///////////////////////////////////////
+
+// ValidateTemplateBody contains the template/render model combination to be validated
 type ValidateTemplateBody struct {
 	Subject                    string
 	TextBody                   string
@@ -131,6 +135,7 @@ type ValidateTemplateBody struct {
 	InlineCSSForHTMLTestRender bool `json:"InlineCssForHtmlTestRender"`
 }
 
+// ValidateTemplateResponse contains information as to how the validation went
 type ValidateTemplateResponse struct {
 	AllContentIsValid      bool
 	HTMLBody               Validation `json:"HtmlBody"`
@@ -139,18 +144,21 @@ type ValidateTemplateResponse struct {
 	SuggestedTemplateModel map[string]interface{}
 }
 
+// Validation contains the results of a field's validation
 type Validation struct {
 	ContentIsValid   bool
 	ValidationErrors []ValidationError
 	RenderedContent  string
 }
 
+// ValidationError contains information about the errors which occurred during validation for a given field
 type ValidationError struct {
 	Message           string
 	Line              int
 	CharacterPosition int
 }
 
+// ValidateTemplate validates the provided template/render model combination
 func (client *Client) ValidateTemplate(validateTemplateBody ValidateTemplateBody) (ValidateTemplateResponse, error) {
 	res := ValidateTemplateResponse{}
 	err := client.doRequest(parameters{
