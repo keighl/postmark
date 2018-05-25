@@ -254,22 +254,42 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// EmailPlatformUsage contains day-to-day usages, along with totals of email usages by platform
 type EmailPlatformUsage struct {
-	Days    []UsageDay
+	// Days - List of objects that each represent email platform usages by date
+	Days []UsageDay
+	// Desktop - The total number of email platform usages by Desktop
 	Desktop int64
-	Mobile  int64
+
+	// Mobile - The total number of email platform usages by Mobile
+	Mobile int64
+
+	// Unknown - The total number of email platform usages by others
 	Unknown int64
+
+	// WebMail - The total number of email platform usages by WebMail
 	WebMail int64
 }
 
+// UsageDay contains the totals of email usages by platform for a specific date
 type UsageDay struct {
-	Date    string
+	// Date - the date in question
+	Date string
+
+	// Desktop - The total number of email platform usages by Desktop for this date
 	Desktop int64
-	Mobile  int64
+
+	// Mobile - The total number of email platform usages by Mobile for this date
+	Mobile int64
+
+	// Unknown - The total number of email platform usages by others for this date
 	Unknown int64
+
+	// WebMail - The total number of email platform usages by WebMail for this date
 	WebMail int64
 }
 
+// GetEmailPlatformUsage gets the email platform usage
 func (client *Client) GetEmailPlatformUsage(options map[string]interface{}) (EmailPlatformUsage, error) {
 	res := EmailPlatformUsage{}
 	values := &url.Values{}
