@@ -7,7 +7,7 @@ import (
 	"goji.io/pat"
 )
 
-func TestGetThisServer(t *testing.T) {
+func TestGetCurrentServer(t *testing.T) {
 	responseJSON := `{
 		"ID": 1,
 			"Name": "Staging Testing",
@@ -37,17 +37,17 @@ func TestGetThisServer(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
-	res, err := client.GetThisServer()
+	res, err := client.GetCurrentServer()
 	if err != nil {
-		t.Fatalf("GetThisServer: %s", err.Error())
+		t.Fatalf("GetCurrentServer: %s", err.Error())
 	}
 
 	if res.Name != "Staging Testing" {
-		t.Fatalf("GetThisServer: wrong name!: %s", res.Name)
+		t.Fatalf("GetCurrentServer: wrong name!: %s", res.Name)
 	}
 }
 
-func TestEditThisServer(t *testing.T) {
+func TestEditCurrentServer(t *testing.T) {
 	responseJSON := `{
   "ID": 1,
   "Name": "Production Testing",
@@ -76,15 +76,15 @@ func TestEditThisServer(t *testing.T) {
 		w.Write([]byte(responseJSON))
 	})
 
-	res, err := client.EditThisServer(Server{
+	res, err := client.EditCurrentServer(Server{
 		Name: "Production Testing",
 	})
 
 	if err != nil {
-		t.Fatalf("EditThisServer: %s", err.Error())
+		t.Fatalf("EditCurrentServer: %s", err.Error())
 	}
 
 	if res.Name != "Production Testing" {
-		t.Fatalf("EditThisServer: wrong name!: %s", res.Name)
+		t.Fatalf("EditCurrentServer: wrong name!: %s", res.Name)
 	}
 }

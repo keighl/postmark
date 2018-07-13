@@ -1,8 +1,8 @@
 package postmark
 
-// GetThisServer gets details for the server associated
+// GetCurrentServer gets details for the server associated
 // with the currently in-use server API Key
-func (client *Client) GetThisServer() (Server, error) {
+func (client *Client) GetCurrentServer() (Server, error) {
 	res := Server{}
 	err := client.doRequest(parameters{
 		Method: "GET",
@@ -16,9 +16,9 @@ func (client *Client) GetThisServer() (Server, error) {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// EditThisServer updates details for the server associated
+// EditCurrentServer updates details for the server associated
 // with the currently in-use server API Key
-func (client *Client) EditThisServer(server Server) (Server, error) {
+func (client *Client) EditCurrentServer(server Server) (Server, error) {
 	res := Server{}
 	err := client.doRequest(parameters{
 		Method:    "PUT",
