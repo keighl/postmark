@@ -280,3 +280,50 @@ func TestGetOpenCounts(t *testing.T) {
 		t.Fatalf("GetOpenCounts: wrong day Opens count")
 	}
 }
+
+func TestGetPlatformCounts(t *testing.T) {
+	responseJSON := `{
+		"Days": [
+			{
+				"Date": "2014-01-01",
+				"Desktop": 1,
+				"WebMail": 1
+			},
+			{
+				"Date": "2014-01-02",
+				"Mobile": 2,
+				"WebMail": 1
+			},
+			{
+				"Date": "2014-01-04",
+				"Desktop": 3,
+				"Unknown": 2
+			}
+		],
+		"Desktop": 4,
+		"Mobile": 2,
+		"Unknown": 2,
+		"WebMail": 2
+	}`
+
+	tMux.HandleFunc(pat.Get("/stats/outbound/platform"), func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(responseJSON))
+	})
+
+	res, err := client.GetPlatformCounts(map[string]interface{}{
+		"fromdate": "2014-01-01",
+		"todate":   "2014-02-01",
+	})
+
+	if err != nil {
+		t.Fatalf("GetPlatformCounts: %v", err.Error())
+	}
+
+	if res.Desktop != 4 {
+		t.Fatalf("GetPlatformCounts: wrong Desktop: %d", res.Desktop)
+	}
+
+	if res.Days[0].Desktop != 1 {
+		t.Fatalf("GetPlatformCounts: wrong day Desktop count")
+	}
+}

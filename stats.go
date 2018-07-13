@@ -250,3 +250,57 @@ func (client *Client) GetOpenCounts(options map[string]interface{}) (OpenCounts,
 	}, &res)
 	return res, err
 }
+
+///////////////////////////////////////
+///////////////////////////////////////
+
+// PlatformCounts contains day-to-day usages, along with totals of email usages by platform
+type PlatformCounts struct {
+	// Days - List of objects that each represent email platform usages by date
+	Days []PlatformDay
+	// Desktop - The total number of email platform usages by Desktop
+	Desktop int64
+
+	// Mobile - The total number of email platform usages by Mobile
+	Mobile int64
+
+	// Unknown - The total number of email platform usages by others
+	Unknown int64
+
+	// WebMail - The total number of email platform usages by WebMail
+	WebMail int64
+}
+
+// PlatformDay contains the totals of email usages by platform for a specific date
+type PlatformDay struct {
+	// Date - the date in question
+	Date string
+
+	// Desktop - The total number of email platform usages by Desktop for this date
+	Desktop int64
+
+	// Mobile - The total number of email platform usages by Mobile for this date
+	Mobile int64
+
+	// Unknown - The total number of email platform usages by others for this date
+	Unknown int64
+
+	// WebMail - The total number of email platform usages by WebMail for this date
+	WebMail int64
+}
+
+// GetPlatformCounts gets the email platform usage
+func (client *Client) GetPlatformCounts(options map[string]interface{}) (PlatformCounts, error) {
+	res := PlatformCounts{}
+	values := &url.Values{}
+	for k, v := range options {
+		values.Add(k, fmt.Sprintf("%v", v))
+	}
+
+	err := client.doRequest(parameters{
+		Method:    "GET",
+		Path:      fmt.Sprintf("stats/outbound/platform?%s", values.Encode()),
+		TokenType: server_token,
+	}, &res)
+	return res, err
+}
