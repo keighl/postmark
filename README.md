@@ -88,7 +88,7 @@ client.HTTPClient = urlfetch.Client(ctx)
     * [x] `PUT /messages/inbound/:id/bypass`
     * [x] `PUT /messages/inbound/:id/retry`
 * [ ] Sender signatures
-    * [ ] List sender signatures
+    * [x] `GET /senders`
     * [ ] Get a sender signature’s details
     * [ ] Create a signature
     * [ ] Edit a signature
