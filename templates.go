@@ -126,6 +126,53 @@ func (client *Client) DeleteTemplate(templateID string) error {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
+// ValidateTemplateBody contains the template/render model combination to be validated
+type ValidateTemplateBody struct {
+	Subject                    string
+	TextBody                   string
+	HTMLBody                   string `json:"HtmlBody"`
+	TestRenderModel            map[string]interface{}
+	InlineCSSForHTMLTestRender bool `json:"InlineCssForHtmlTestRender"`
+}
+
+// ValidateTemplateResponse contains information as to how the validation went
+type ValidateTemplateResponse struct {
+	AllContentIsValid      bool
+	HTMLBody               Validation `json:"HtmlBody"`
+	TextBody               Validation
+	Subject                Validation
+	SuggestedTemplateModel map[string]interface{}
+}
+
+// Validation contains the results of a field's validation
+type Validation struct {
+	ContentIsValid   bool
+	ValidationErrors []ValidationError
+	RenderedContent  string
+}
+
+// ValidationError contains information about the errors which occurred during validation for a given field
+type ValidationError struct {
+	Message           string
+	Line              int
+	CharacterPosition int
+}
+
+// ValidateTemplate validates the provided template/render model combination
+func (client *Client) ValidateTemplate(validateTemplateBody ValidateTemplateBody) (ValidateTemplateResponse, error) {
+	res := ValidateTemplateResponse{}
+	err := client.doRequest(parameters{
+		Method:    "POST",
+		Path:      "templates/validate",
+		Payload:   validateTemplateBody,
+		TokenType: server_token,
+	}, &res)
+	return res, err
+}
+
+///////////////////////////////////////
+///////////////////////////////////////
+
 // TemplatedEmail is used to send an email via a template
 type TemplatedEmail struct {
 	// TemplateId: REQUIRED - The template to use when sending this message.
