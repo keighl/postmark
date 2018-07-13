@@ -31,6 +31,8 @@ type Email struct {
 	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
 	Attachments []Attachment `json:",omitempty"`
+	// Metadata: metadata
+	Metadata map[string]string `json:",omitempty"`
 }
 
 // Header - an email header
