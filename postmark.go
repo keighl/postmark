@@ -65,7 +65,7 @@ func (client *Client) doRequest(opts parameters, dst interface{}) error {
 	if opts.Payload != nil {
 		payloadData, err := json.Marshal(opts.Payload)
 		if err != nil {
-			return err
+			return fmt.Errorf("error marshalling payload %+v - %s", opts.Payload, err.Error())
 		}
 		req.Body = ioutil.NopCloser(bytes.NewBuffer(payloadData))
 	}
@@ -83,16 +83,18 @@ func (client *Client) doRequest(opts parameters, dst interface{}) error {
 
 	res, err := client.HTTPClient.Do(req)
 	if err != nil {
-		return err
+		return fmt.Errorf("error executing request - %s", err.Error())
 	}
 
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return err
+		return fmt.Errorf("error reading body - %s", err.Error())
 	}
-	err = json.Unmarshal(body, dst)
-	return err
+	if err := json.Unmarshal(body, dst); err != nil {
+		return fmt.Errorf("error unmarshalling response %+v - %s - have status %d", body, err.Error(), res.StatusCode)
+	}
+	return nil
 }
 
 // APIError represents errors returned by Postmark
