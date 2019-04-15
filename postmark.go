@@ -83,7 +83,7 @@ func (client *Client) doRequest(opts parameters, dst interface{}) error {
 
 	res, err := client.HTTPClient.Do(req)
 	if err != nil {
-		return fmt.Errorf("error executing request - %s", err.Error())
+		return fmt.Errorf("error executing request (%+v) - %s", req, err.Error())
 	}
 
 	defer res.Body.Close()
