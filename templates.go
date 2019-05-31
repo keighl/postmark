@@ -205,6 +205,8 @@ type TemplatedEmail struct {
 	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
 	Attachments []Attachment `json:",omitempty"`
+	// Metadata: Custom metadata key/value pairs.
+	Metadata map[string]interface{} `json:,omitempty`
 }
 
 // SendTemplatedEmail sends an email using a template (TemplateId)
