@@ -15,7 +15,8 @@ func TestGetTemplate(t *testing.T) {
 		"HtmlBody": "Hello dear Postmark user. {{Name}}",
 		"TextBody": "{{Name}} is a {{Occupation}}",
 		"AssociatedServerId": 1,
-		"Active": false
+		"Active": false,
+		"Alias": "onboarding-email"
 	}`
 
 	tMux.HandleFunc(pat.Get("/templates/:templateID"), func(w http.ResponseWriter, req *http.Request) {
@@ -30,6 +31,10 @@ func TestGetTemplate(t *testing.T) {
 	if res.Name != "Onboarding Email" {
 		t.Fatalf("Template: wrong name!")
 	}
+
+	if res.Alias != "onboarding-email" {
+		t.Fatalf("Template: wrong alias!")
+	}
 }
 
 func TestGetTemplates(t *testing.T) {
@@ -39,12 +44,14 @@ func TestGetTemplates(t *testing.T) {
 		  {
 			"Active": true,
 			"TemplateId": 1234,
-			"Name": "Account Activation Email"
+			"Name": "Account Activation Email",
+			"Alias": "activate-email"
 		  },
 		  {
 			"Active": true,
 			"TemplateId": 5678,
-			"Name": "Password Recovery Email"
+			"Name": "Password Recovery Email",
+			"Alias": "recovery-email"
 		  }
 		]
 	}`

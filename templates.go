@@ -21,6 +21,8 @@ type Template struct {
 	AssociatedServerId int64
 	// Active: Indicates that this template may be used for sending email.
 	Active bool
+	// Template alias.
+	Alias string
 }
 
 // TemplateInfo is a limited set of template info returned via Index/Editing endpoints
@@ -31,6 +33,8 @@ type TemplateInfo struct {
 	Name string
 	// Active: Indicates that this template may be used for sending email.
 	Active bool
+	// Template alias.
+	Alias string
 }
 
 ///////////////////////////////////////
@@ -175,8 +179,10 @@ func (client *Client) ValidateTemplate(validateTemplateBody ValidateTemplateBody
 
 // TemplatedEmail is used to send an email via a template
 type TemplatedEmail struct {
-	// TemplateId: REQUIRED - The template to use when sending this message.
-	TemplateId int64
+	// TemplateId: The template to use when sending this message. Required if TemplateAlias is not specified.
+	TemplateId int64 `json:",omitempty"`
+	// TemplateAlias: The alias of a template to use when sending this message. Required if TemplateID is not specified.
+	TemplateAlias string `json:",omitempty"`
 	// TemplateModel: The model to be applied to the specified template to generate HtmlBody, TextBody, and Subject.
 	TemplateModel map[string]interface{} `json:",omitempty"`
 	// InlineCss: By default, if the specified template contains an HTMLBody, we will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.
@@ -199,6 +205,8 @@ type TemplatedEmail struct {
 	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
 	Attachments []Attachment `json:",omitempty"`
+	// Metadata: Custom metadata key/value pairs.
+	Metadata map[string]interface{} `json:,omitempty`
 }
 
 // SendTemplatedEmail sends an email using a template (TemplateId)
