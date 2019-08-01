@@ -175,8 +175,10 @@ func (client *Client) ValidateTemplate(validateTemplateBody ValidateTemplateBody
 
 // TemplatedEmail is used to send an email via a template
 type TemplatedEmail struct {
-	// TemplateId: REQUIRED - The template to use when sending this message.
-	TemplateId int64
+	// TemplateId: REQUIRED if TemplateAlias is not specified. - The template id to use when sending this message.
+	TemplateId int64 `json:",omitempty"`
+	// TemplateAlias: REQUIRED if TemplateId is not specified. - The template alias to use when sending this message.
+	TemplateAlias string `json:",omitempty"`
 	// TemplateModel: The model to be applied to the specified template to generate HtmlBody, TextBody, and Subject.
 	TemplateModel map[string]interface{} `json:",omitempty"`
 	// InlineCss: By default, if the specified template contains an HTMLBody, we will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.
