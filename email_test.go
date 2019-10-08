@@ -24,6 +24,7 @@ var testEmail = Email{
 		},
 	},
 	TrackOpens: true,
+	TrackLinks: "HtmlAndText",
 	Attachments: []Attachment{
 		{
 			Name:        "readme.txt",

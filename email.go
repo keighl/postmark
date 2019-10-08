@@ -27,6 +27,11 @@ type Email struct {
 	ReplyTo string `json:",omitempty"`
 	// Headers: List of custom headers to include.
 	Headers []Header `json:",omitempty"`
+
+	// TrackLinks: Activate link tracking for links in the HTML or Text bodies of this email.
+	// Possible options: None HtmlAndText HtmlOnly TextOnly
+	TrackLinks string `json:",omitempty"`
+
 	// TrackOpens: Activate open tracking for this email.
 	TrackOpens bool `json:",omitempty"`
 	// Attachments: List of attachments
