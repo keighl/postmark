@@ -5,6 +5,23 @@ import (
 	"time"
 )
 
+// TrackLinksOption are possible options for TrackLinks
+type TrackLinksOption string
+
+const (
+	// NoneTrackLinks means no tracking for any links in html or text bodies.
+	NoneTrackLinks = TrackLinksOption("None")
+
+	// HTMLAndTextTrackLinks means tracking for any links in html and text bodies.
+	HTMLAndTextTrackLinks = TrackLinksOption("HtmlAndText")
+
+	// HTMLOnlyTrackLinks means tracking for any links only in html bodies.
+	HTMLOnlyTrackLinks = TrackLinksOption("HtmlOnly")
+
+	// TextOnlyrackLinks means tracking for only links only in text bodies.
+	TextOnlyrackLinks = TrackLinksOption("TextOnly")
+)
+
 // Email is exactly what it sounds like
 type Email struct {
 	// From: REQUIRED The sender email address. Must have a registered and confirmed Sender Signature.
@@ -30,7 +47,7 @@ type Email struct {
 
 	// TrackLinks: Activate link tracking for links in the HTML or Text bodies of this email.
 	// Possible options: None HtmlAndText HtmlOnly TextOnly
-	TrackLinks string `json:",omitempty"`
+	TrackLinks TrackLinksOption `json:",omitempty"`
 
 	// TrackOpens: Activate open tracking for this email.
 	TrackOpens bool `json:",omitempty"`
