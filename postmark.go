@@ -3,6 +3,7 @@ package postmark
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -54,10 +55,11 @@ func NewClient(serverToken string, accountToken string) *Client {
 	}
 }
 
-func (client *Client) doRequest(opts parameters, dst interface{}) error {
+func (client *Client) doRequest(ctx context.Context, opts parameters, dst interface{}) error {
 	url := fmt.Sprintf("%s/%s", client.BaseURL, opts.Path)
 
-	req, err := http.NewRequest(opts.Method, url, nil)
+	req, err := http.NewRequestWithContext(ctx, opts.Method, url, nil)
+
 	if err != nil {
 		return err
 	}

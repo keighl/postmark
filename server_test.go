@@ -1,8 +1,8 @@
 package postmark
 
 import (
-	"testing"
 	"net/http"
+	"testing"
 
 	"goji.io/pat"
 )
