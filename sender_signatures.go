@@ -1,6 +1,7 @@
 package postmark
 
 import (
+	"context"
 	"fmt"
 	"net/url"
 )
@@ -24,15 +25,20 @@ type SenderSignaturesList struct {
 	SenderSignatures []SenderSignature
 }
 
-// GetSenderSignatures gets a list of sender signatures, limited by count and paged by offset
+// GetSenderSignatures calls GetSenderSignaturesWithContext with empty context
 func (client *Client) GetSenderSignatures(count, offset int64) (SenderSignaturesList, error) {
+	return client.GetSenderSignaturesWithContext(context.Background(), count, offset)
+}
+
+// GetSenderSignaturesWithContext gets a list of sender signatures, limited by count and paged by offset
+func (client *Client) GetSenderSignaturesWithContext(ctx context.Context, count, offset int64) (SenderSignaturesList, error) {
 	res := SenderSignaturesList{}
 
 	values := &url.Values{}
 	values.Add("count", fmt.Sprintf("%d", count))
 	values.Add("offset", fmt.Sprintf("%d", offset))
 
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      fmt.Sprintf("senders?%s", values.Encode()),
 		TokenType: server_token,

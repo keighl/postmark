@@ -1,6 +1,7 @@
 package postmark
 
 import (
+	"context"
 	"fmt"
 	"time"
 )
@@ -70,10 +71,15 @@ type EmailResponse struct {
 	Message string
 }
 
-// SendEmail sends, well, an email.
+// SendEmail calls SendEmailWithContext with empty context
 func (client *Client) SendEmail(email Email) (EmailResponse, error) {
+	return client.SendEmailWithContext(context.Background(), email)
+}
+
+// SendEmailWithContext sends, well, an email.
+func (client *Client) SendEmailWithContext(ctx context.Context, email Email) (EmailResponse, error) {
 	res := EmailResponse{}
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "POST",
 		Path:      "email",
 		Payload:   email,
@@ -87,12 +93,17 @@ func (client *Client) SendEmail(email Email) (EmailResponse, error) {
 	return res, err
 }
 
-// SendEmailBatch sends multiple emails together
+// SendEmailBatch calls SendEmailBatchWithContext with empty context
+func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
+	return client.SendEmailBatchWithContext(context.Background(), emails)
+}
+
+// SendEmailBatchWithContxt sends multiple emails together
 // Note, individual emails in the batch can error, so it would be wise to
 // range over the responses and sniff for errors
-func (client *Client) SendEmailBatch(emails []Email) ([]EmailResponse, error) {
+func (client *Client) SendEmailBatchWithContext(ctx context.Context, emails []Email) ([]EmailResponse, error) {
 	res := []EmailResponse{}
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "POST",
 		Path:      "email/batch",
 		Payload:   emails,

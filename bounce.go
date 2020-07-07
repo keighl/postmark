@@ -1,6 +1,7 @@
 package postmark
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -29,11 +30,16 @@ type DeliveryStats struct {
 	Bounces []BounceType
 }
 
-// GetDeliveryStats returns delivery stats for the server
+// GetDeliveryStats calls GetDeliveryStatsWithContext with empty context
 func (client *Client) GetDeliveryStats() (DeliveryStats, error) {
+	return client.GetDeliveryStatsWithContext(context.Background())
+}
+
+// GetDeliveryStatsWithContext returns delivery stats for the server
+func (client *Client) GetDeliveryStatsWithContext(ctx context.Context) (DeliveryStats, error) {
 	res := DeliveryStats{}
 	path := "deliverystats"
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -81,10 +87,15 @@ type bouncesResponse struct {
 	Bounces    []Bounce
 }
 
-// GetBounces returns bounces for the server
+// GetBounces calls GetBouncesWithContext with empty context
+func (client *Client) GetBounces(count int64, offset int64, options map[string]interface{}) ([]Bounce, int64, error) {
+	return client.GetBouncesWithContext(context.Background(), count, offset, options)
+}
+
+// GetBouncesWithContext returns bounces for the server
 // It returns a Bounce slice, the total bounce count, and any error that occurred
 // Available options: http://developer.postmarkapp.com/developer-api-bounce.html#bounces
-func (client *Client) GetBounces(count int64, offset int64, options map[string]interface{}) ([]Bounce, int64, error) {
+func (client *Client) GetBouncesWithContext(ctx context.Context, count int64, offset int64, options map[string]interface{}) ([]Bounce, int64, error) {
 	res := bouncesResponse{}
 
 	values := &url.Values{}
@@ -97,7 +108,7 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 
 	path := fmt.Sprintf("bounces?%s", values.Encode())
 
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -108,11 +119,16 @@ func (client *Client) GetBounces(count int64, offset int64, options map[string]i
 ///////////////////////////////////////
 ///////////////////////////////////////
 
-// GetBounce fetches a single bounce with bounceID
+// GetBounce calls GetBounceWithContext with empty context
 func (client *Client) GetBounce(bounceID int64) (Bounce, error) {
+	return client.GetBounceWithContext(context.Background(), bounceID)
+}
+
+// GetBounceWithContext fetches a single bounce with bounceID
+func (client *Client) GetBounceWithContext(ctx context.Context, bounceID int64) (Bounce, error) {
 	res := Bounce{}
 	path := fmt.Sprintf("bounces/%v", bounceID)
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -127,11 +143,16 @@ type dumpResponse struct {
 	Body string
 }
 
-// GetBounceDump fetches a SMTP data dump for a single bounce
+// GetBounceDump calls GetBounceDumpWithContext with empty context
 func (client *Client) GetBounceDump(bounceID int64) (string, error) {
+	return client.GetBounceDumpWithContext(context.Background(), bounceID)
+}
+
+// GetBounceDumpWithContext fetches a SMTP data dump for a single bounce
+func (client *Client) GetBounceDumpWithContext(ctx context.Context, bounceID int64) (string, error) {
 	res := dumpResponse{}
 	path := fmt.Sprintf("bounces/%v/dump", bounceID)
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
@@ -147,13 +168,18 @@ type activateBounceResponse struct {
 	Bounce  Bounce
 }
 
-// ActivateBounce reactivates a bounce for resending. Returns the bounce, a
+// ActivateBounce calls ActivateBounceWithContext with empty context
+func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
+	return client.ActivateBounceWithContext(context.Background(), bounceID)
+}
+
+// ActivateBounceWithContext reactivates a bounce for resending. Returns the bounce, a
 // message, and any error that occurs
 // TODO: clarify this with Postmark
-func (client *Client) ActivateBounce(bounceID int64) (Bounce, string, error) {
+func (client *Client) ActivateBounceWithContext(ctx context.Context, bounceID int64) (Bounce, string, error) {
 	res := activateBounceResponse{}
 	path := fmt.Sprintf("bounces/%v/activate", bounceID)
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "PUT",
 		Path:      path,
 		TokenType: server_token,
@@ -168,11 +194,16 @@ type bouncedTagsResponse struct {
 	Tags []string `json:"tags"`
 }
 
-// GetBouncedTags retrieves a list of tags that have generated bounced emails
+// GetBouncedTags calls GetBouncedTagsWithContext with empty context
 func (client *Client) GetBouncedTags() ([]string, error) {
+	return client.GetBouncedTagsWithContext(context.Background())
+}
+
+// GetBouncedTagsWithContext retrieves a list of tags that have generated bounced emails
+func (client *Client) GetBouncedTagsWithContext(ctx context.Context) ([]string, error) {
 	var raw json.RawMessage
 	path := "bounces/tags"
-	err := client.doRequest(parameters{
+	err := client.doRequest(ctx, parameters{
 		Method:    "GET",
 		Path:      path,
 		TokenType: server_token,
