@@ -180,7 +180,7 @@ type TemplatedEmail struct {
 	// TemplateAlias: REQUIRED if TemplateId is not specified. - The template alias to use when sending this message.
 	TemplateAlias string `json:",omitempty"`
 	// TemplateModel: The model to be applied to the specified template to generate HtmlBody, TextBody, and Subject.
-	TemplateModel map[string]interface{} `json:",omitempty"`
+	TemplateModel interface{} `json:",omitempty"`
 	// InlineCss: By default, if the specified template contains an HTMLBody, we will apply the style blocks as inline attributes to the rendered HTML content. You may opt-out of this behavior by passing false for this request field.
 	InlineCss bool `json:",omitempty"`
 	// From: The sender email address. Must have a registered and confirmed Sender Signature.
