@@ -33,6 +33,8 @@ type Email struct {
 	Attachments []Attachment `json:",omitempty"`
 	// Metadata: metadata
 	Metadata map[string]string `json:",omitempty"`
+	// MessageStream: metadata
+	MessageStream string `json:",omitempty"`
 }
 
 // Header - an email header
