@@ -5,19 +5,22 @@ import (
 	"net/url"
 )
 
+// SuppressionReasonType - The reason type of suppression
 type SuppressionReasonType string
+
+// OriginType - The reason type of origin
 type OriginType string
 
 const (
-	HardBounce        SuppressionReasonType = "HardBounce"
-	SpamComplaint     SuppressionReasonType = "SpamComplaint"
-	ManualSuppression SuppressionReasonType = "ManualSuppression"
-	Re                OriginType            = "Recipient"
-	Customer          OriginType            = "Customer"
-	Admin             OriginType            = "Admin"
+	HardBounceReason        SuppressionReasonType = "HardBounce"
+	SpamComplaintReason     SuppressionReasonType = "SpamComplaint"
+	ManualSuppressionReason SuppressionReasonType = "ManualSuppression"
+	RecipientOrigin         OriginType            = "Recipient"
+	CustomerOrigin          OriginType            = "Customer"
+	AdminOrigin             OriginType            = "Admin"
 )
 
-// SuppressionEmail - a message received from the Postmark server
+// SuppressionEmail - Suppression email entry
 type SuppressionEmail struct {
 	// EmailAddress - The email address of suppression.
 	EmailAddress string
@@ -29,31 +32,30 @@ type SuppressionEmail struct {
 	CreatedAt string
 }
 
-// suppressionsResp - a message received from the Postmark server
-type suppressionsResp struct {
-	// Suppressions - The email address of suppression.
+// suppressionsResponse - A message received from the Postmark server
+type suppressionsResponse struct {
+	// Suppressions - The slice of suppression email address.
 	Suppressions []SuppressionEmail
 }
 
-// EmailAddress - a message received from the Postmark server
+// EmailAddress - Email address to delete
 type EmailAddress struct {
-	// EmailAddress - The email address of suppression.
 	EmailAddress string `json:",omitempty"`
 }
 
-// DeleteSuppressions - a message received from the Postmark server
+// DeleteSuppressions - A payload of email address to delete
 type DeleteSuppressions struct {
 	// Suppressions - The slice of email address to delete.
 	Suppressions []EmailAddress `json:",omitempty"`
 }
 
-// deleteSuppressionsResponse - a message received from the Postmark server
+// deleteSuppressionsResponse - A message received from the Postmark server
 type deleteSuppressionsResponse struct {
-	// Suppressions - The slice of email address status and message.
+	// Suppressions - The slice of deleted email status and reason.
 	Suppressions []SuppressionDelete
 }
 
-// SuppressionDelete - a message received from the Postmark server
+// SuppressionDelete - Suppression email deleted
 type SuppressionDelete struct {
 	EmailAddress string
 	Status       string
@@ -61,7 +63,7 @@ type SuppressionDelete struct {
 }
 
 // GetSuppressionEmails fetches a email addresses in the list of suppression dump on the server
-// It returns a SuppressionEmails slice, the total message count, and any error that occurred
+// It returns a SuppressionEmails slice, and any error that occurred
 // https://postmarkapp.com/developer/api/suppressions-api#suppression-dump
 func (client *Client) GetSuppressionEmails(streamID string, options map[string]interface{}) ([]SuppressionEmail, error) {
 	values := &url.Values{}
@@ -74,7 +76,7 @@ func (client *Client) GetSuppressionEmails(streamID string, options map[string]i
 		path = fmt.Sprintf("%s?%s", path, values.Encode())
 	}
 
-	res := suppressionsResp{}
+	res := suppressionsResponse{}
 	err := client.doRequest(parameters{
 		Method:    "GET",
 		Path:      path,
@@ -85,7 +87,7 @@ func (client *Client) GetSuppressionEmails(streamID string, options map[string]i
 
 // DeleteSuppressionEmails delete email addresses in the list of suppression dump on the server
 // Noet: SpamComplaint and ManualSuppression with Origin: Customer cannot be deleted
-// It return email address failed delete and failing reason
+// It return a SuppressionDelete slice, and any error that occurred
 // https://postmarkapp.com/developer/api/suppressions-api#delete-a-suppression
 func (client *Client) DeleteSuppressionEmails(streamID string, delete []string) ([]SuppressionDelete, error) {
 	emailAddresses := make([]EmailAddress, 0, 8)

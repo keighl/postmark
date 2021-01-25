@@ -68,8 +68,8 @@ func TestGetSuppressionEmails(t *testing.T) {
 		"emailaddress":      "address@wildbit.com",
 		"fromdate":          "2019-12-10",
 		"todate":            "2019-12-11",
-		"suppressionreason": "hardbounce",
-		"origin":            "recipient",
+		"suppressionreason": HardBounceReason,
+		"origin":            RecipientOrigin,
 	})
 
 	if len(res) != 1 {
